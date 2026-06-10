@@ -3,33 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hidder Prototype</title>
-
+  <title>Hidder UX/UI Prototype</title>
   <style>
     :root {
-      --bg: #080a0f;
-      --surface: #121620;
-      --surface-2: #1a1f2b;
-      --surface-3: #222938;
-      --text: #f5f7fa;
-      --muted: #8a94a6;
-      --line: rgba(255, 255, 255, 0.08);
-      --cyan: #00d1ff;
-      --purple: #8b5cf6;
-      --danger: #ff4d4f;
-      --success: #1ed760;
-
-      --fake-bg: #f7f8fa;
-      --fake-card: #ffffff;
-      --fake-text: #1c1c1e;
-      --fake-muted: #8e8e93;
-      --fake-line: #e5e5ea;
-      --fake-blue: #007aff;
-
-      --radius-lg: 26px;
-      --radius-md: 18px;
-      --radius-sm: 12px;
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --bg: #080A0F;
+      --panel: #111722;
+      --panel2: #171F2D;
+      --card: #1D2737;
+      --line: rgba(255,255,255,.09);
+      --text: #F5F7FA;
+      --muted: #8D98AA;
+      --cyan: #00D1FF;
+      --purple: #8B5CF6;
+      --danger: #FF4D4F;
+      --ok: #29D391;
+      --phone: #0B0D12;
+      --ios-bg: #F5F6F8;
+      --ios-card: #FFFFFF;
+      --ios-text: #111318;
+      --ios-muted: #777E8C;
+      --ios-blue: #007AFF;
+      --orange: #FF9F0A;
+      --radius: 24px;
+      --shadow: 0 30px 100px rgba(0,0,0,.38);
     }
 
     * {
@@ -42,272 +38,258 @@
     body {
       min-height: 100vh;
       background:
-        radial-gradient(circle at top left, rgba(0, 209, 255, 0.15), transparent 35%),
-        radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.18), transparent 35%),
+        radial-gradient(circle at 10% 5%, rgba(0,209,255,.16), transparent 34%),
+        radial-gradient(circle at 95% 95%, rgba(139,92,246,.22), transparent 38%),
         var(--bg);
       color: var(--text);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 28px;
+      padding: 24px;
     }
 
-    button,
-    input,
-    textarea {
+    button, input, textarea {
       font: inherit;
     }
 
     button {
-      border: none;
+      border: 0;
       cursor: pointer;
     }
 
-    .app-shell {
-      width: 100%;
-      max-width: 1180px;
-      min-height: 720px;
+    .hidden {
+      display: none !important;
+    }
+
+    .app {
+      width: min(1280px, 100%);
+      margin: 0 auto;
+      min-height: calc(100vh - 48px);
       display: grid;
-      grid-template-columns: 420px 1fr;
-      background: rgba(18, 22, 32, 0.82);
+      grid-template-columns: 390px 1fr;
       border: 1px solid var(--line);
       border-radius: 34px;
       overflow: hidden;
+      background: rgba(17,23,34,.84);
+      backdrop-filter: blur(20px);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(24px);
     }
 
-    .brand-panel {
-      padding: 42px;
+    .left {
+      padding: 34px;
       background:
-        linear-gradient(135deg, rgba(0, 209, 255, 0.12), transparent),
-        linear-gradient(315deg, rgba(139, 92, 246, 0.16), transparent),
-        #0b0f16;
+        linear-gradient(135deg, rgba(0,209,255,.09), transparent),
+        linear-gradient(315deg, rgba(139,92,246,.13), transparent),
+        #0B1018;
       border-right: 1px solid var(--line);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 40px;
+      gap: 30px;
     }
 
-    .logo-row {
+    .brand {
       display: flex;
       align-items: center;
       gap: 14px;
     }
 
-    .logo-mark {
-      width: 44px;
-      height: 44px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, var(--cyan), var(--purple));
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-      color: white;
-      letter-spacing: -1px;
+    .brand img {
+      width: 58px;
+      height: 58px;
+      object-fit: cover;
+      border-radius: 18px;
+      background: #fff;
     }
 
-    .logo-text h1 {
-      font-size: 24px;
-      letter-spacing: -0.5px;
+    .brand h1 {
+      font-size: 25px;
+      letter-spacing: -.7px;
     }
 
-    .logo-text p {
-      color: var(--muted);
+    .brand p {
       font-size: 13px;
+      color: var(--muted);
       margin-top: 2px;
     }
 
-    .hero-copy h2 {
-      font-size: 42px;
+    .hero h2 {
+      font-size: 39px;
       line-height: 1.04;
-      letter-spacing: -1.5px;
+      letter-spacing: -1.3px;
       margin-bottom: 18px;
     }
 
-    .hero-copy p {
+    .hero p {
       color: var(--muted);
+      font-size: 14.5px;
       line-height: 1.7;
-      font-size: 15px;
     }
 
-    .feature-stack {
+    .feature {
       display: grid;
       gap: 12px;
     }
 
-    .feature-item {
+    .feature-card {
       display: flex;
       gap: 12px;
-      align-items: flex-start;
       padding: 14px;
       border: 1px solid var(--line);
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.035);
+      background: rgba(255,255,255,.035);
     }
 
     .feature-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background: rgba(0, 209, 255, 0.12);
-      color: var(--cyan);
+      width: 36px;
+      height: 36px;
+      border-radius: 13px;
       display: grid;
       place-items: center;
-      flex-shrink: 0;
+      color: var(--cyan);
+      background: rgba(0,209,255,.1);
+      flex: 0 0 auto;
     }
 
-    .feature-item h3 {
+    .feature-card h3 {
       font-size: 14px;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
 
-    .feature-item p {
-      color: var(--muted);
+    .feature-card p {
       font-size: 12.5px;
-      line-height: 1.5;
+      line-height: 1.45;
+      color: var(--muted);
     }
 
-    .main-panel {
-      padding: 34px;
+    .right {
+      padding: 28px;
       position: relative;
       overflow: hidden;
     }
 
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      gap: 18px;
+    }
+
+    .topbar h2 {
+      font-size: 29px;
+      letter-spacing: -.8px;
+      margin-bottom: 6px;
+    }
+
+    .topbar p {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      color: var(--cyan);
+      background: rgba(0,209,255,.1);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
     .screen {
       display: none;
-      animation: fadeIn 0.25s ease;
+      animation: fade .22s ease;
     }
 
     .screen.active {
       display: block;
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      margin-bottom: 28px;
-    }
-
-    .panel-header h2 {
-      font-size: 30px;
-      letter-spacing: -0.8px;
-      margin-bottom: 8px;
-    }
-
-    .panel-header p {
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14px;
-      max-width: 520px;
-    }
-
-    .pill {
-      padding: 9px 13px;
-      border-radius: 999px;
-      background: rgba(0, 209, 255, 0.1);
-      color: var(--cyan);
-      font-size: 12px;
-      white-space: nowrap;
-    }
-
-    .auth-card,
-    .setup-card,
-    .vault-card {
-      background: rgba(255, 255, 255, 0.035);
+    .card {
       border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      padding: 26px;
+      background: rgba(255,255,255,.035);
+      border-radius: 26px;
+      padding: 24px;
     }
 
     .tabs {
       display: flex;
+      background: rgba(255,255,255,.06);
       padding: 5px;
-      background: rgba(255, 255, 255, 0.05);
       border-radius: 16px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
-    .tab-btn {
+    .tab {
       flex: 1;
       padding: 12px;
       border-radius: 12px;
-      color: var(--muted);
       background: transparent;
-      transition: 0.2s ease;
+      color: var(--muted);
+      font-weight: 700;
     }
 
-    .tab-btn.active {
-      background: var(--surface-2);
+    .tab.active {
+      background: var(--panel2);
       color: var(--text);
     }
 
-    .form-group {
-      margin-bottom: 16px;
+    .field {
+      margin-bottom: 15px;
     }
 
-    .form-group label {
+    .field label {
       display: block;
-      margin-bottom: 8px;
-      font-size: 13px;
       color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
     }
 
     .input {
       width: 100%;
-      background: #0c1018;
       border: 1px solid var(--line);
+      background: #0B1018;
+      color: var(--text);
       border-radius: 15px;
       padding: 14px 15px;
-      color: var(--text);
-      outline: none;
-      transition: 0.2s ease;
+      outline: 0;
     }
 
     .input:focus {
-      border-color: rgba(0, 209, 255, 0.55);
-      box-shadow: 0 0 0 4px rgba(0, 209, 255, 0.08);
+      border-color: rgba(0,209,255,.6);
+      box-shadow: 0 0 0 4px rgba(0,209,255,.08);
     }
 
-    .helper {
+    .hint {
       color: var(--muted);
-      font-size: 12px;
       line-height: 1.5;
-      margin-top: 8px;
+      font-size: 12.5px;
+      margin-top: 9px;
     }
 
     .btn {
       width: 100%;
       padding: 14px 16px;
       border-radius: 16px;
-      font-weight: 700;
-      color: white;
+      color: #fff;
+      font-weight: 800;
       background: linear-gradient(135deg, var(--cyan), var(--purple));
-      transition: 0.2s ease;
+      transition: .18s ease;
     }
 
     .btn:hover {
-      transform: translateY(-1px);
       filter: brightness(1.08);
+      transform: translateY(-1px);
     }
 
     .btn.secondary {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,.06);
       color: var(--text);
       border: 1px solid var(--line);
     }
@@ -315,33 +297,26 @@
     .btn.ghost {
       background: transparent;
       color: var(--muted);
-      border: 1px solid transparent;
     }
 
     .btn.danger {
-      background: rgba(255, 77, 79, 0.12);
-      color: #ff9a9b;
-      border: 1px solid rgba(255, 77, 79, 0.25);
+      background: rgba(255,77,79,.11);
+      color: #FFB3B4;
+      border: 1px solid rgba(255,77,79,.25);
     }
 
     .row {
       display: flex;
       gap: 12px;
-      align-items: center;
-    }
-
-    .row .btn {
-      width: auto;
-      flex: 1;
     }
 
     .message {
-      margin-top: 14px;
-      padding: 13px 14px;
-      border-radius: 14px;
       display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
       font-size: 13px;
-      line-height: 1.5;
+      line-height: 1.45;
     }
 
     .message.show {
@@ -349,29 +324,28 @@
     }
 
     .message.error {
-      background: rgba(255, 77, 79, 0.1);
-      color: #ffb2b3;
-      border: 1px solid rgba(255, 77, 79, 0.22);
+      color: #FFB3B4;
+      background: rgba(255,77,79,.1);
+      border: 1px solid rgba(255,77,79,.24);
     }
 
-    .message.success {
-      background: rgba(30, 215, 96, 0.1);
-      color: #9df4bf;
-      border: 1px solid rgba(30, 215, 96, 0.22);
+    .message.ok {
+      color: #A4F2CB;
+      background: rgba(41,211,145,.1);
+      border: 1px solid rgba(41,211,145,.24);
     }
 
     .progress {
       display: flex;
       gap: 8px;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
 
     .progress span {
-      height: 6px;
       flex: 1;
+      height: 6px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.1);
-      overflow: hidden;
+      background: rgba(255,255,255,.1);
     }
 
     .progress span.active {
@@ -384,221 +358,291 @@
       gap: 14px;
     }
 
-    .disguise-card {
+    .disguise {
+      min-height: 155px;
       text-align: left;
       border: 1px solid var(--line);
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.035);
+      background: rgba(255,255,255,.035);
       color: var(--text);
-      padding: 18px;
-      min-height: 150px;
-      transition: 0.2s ease;
+      border-radius: 20px;
+      padding: 17px;
+      transition: .18s ease;
     }
 
-    .disguise-card:hover,
-    .disguise-card.selected {
-      border-color: rgba(0, 209, 255, 0.6);
-      background: rgba(0, 209, 255, 0.07);
+    .disguise.selected, .disguise:hover {
+      border-color: rgba(0,209,255,.55);
+      background: rgba(0,209,255,.07);
       transform: translateY(-2px);
     }
 
-    .disguise-top {
+    .disguise-head {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 18px;
+      justify-content: space-between;
+      margin-bottom: 15px;
     }
 
-    .app-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: white;
-      color: #111;
+    .mini-app-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
       display: grid;
       place-items: center;
-      font-size: 20px;
+      font-size: 22px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.16);
     }
 
-    .disguise-card h3 {
-      margin-bottom: 6px;
+    .calc-ico { background: linear-gradient(135deg,#2D3341,#0D1119); color:#FF9F0A; }
+    .note-ico { background: linear-gradient(135deg,#FFE890,#FFC247); color:#2F2510; }
+    .weather-ico { background: linear-gradient(135deg,#4FB4FF,#1976FF); color:white; }
+    .files-ico { background: linear-gradient(135deg,#7BC7FF,#3F8CFF); color:white; }
+    .clock-ico { background: linear-gradient(135deg,#F6F7FB,#B9C1D1); color:#171A21; }
+    .gallery-ico { background: linear-gradient(135deg,#FF6BA9,#8B5CF6); color:white; }
+
+    .disguise h3 {
       font-size: 16px;
+      margin-bottom: 5px;
     }
 
-    .disguise-card p {
+    .disguise p {
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.5;
+      font-size: 12.5px;
+      line-height: 1.45;
     }
 
-    .mini-preview {
-      margin-top: 14px;
-      height: 38px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.06);
-      display: flex;
-      align-items: center;
-      padding: 8px;
-      gap: 6px;
-    }
-
-    .mini-dot {
-      width: 20px;
-      height: 20px;
-      border-radius: 7px;
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    .mini-line {
-      height: 7px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.16);
-      flex: 1;
-    }
-
-    .app-layout {
+    .main-grid {
       display: grid;
-      grid-template-columns: 260px 1fr;
+      grid-template-columns: 330px 1fr;
       gap: 22px;
-      min-height: 620px;
+      min-height: 650px;
     }
 
-    .sidebar {
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.035);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .user-mini {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 18px;
-    }
-
-    .avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, var(--cyan), var(--purple));
+    .phone-wrap {
       display: grid;
       place-items: center;
-      font-weight: 900;
+      align-content: center;
+      gap: 15px;
     }
 
-    .user-mini h3 {
-      font-size: 14px;
-      margin-bottom: 3px;
+    .phone {
+      width: 315px;
+      height: 640px;
+      border-radius: 46px;
+      background: #07080B;
+      padding: 13px;
+      box-shadow: 0 28px 90px rgba(0,0,0,.45);
+      border: 1px solid rgba(255,255,255,.1);
+      position: relative;
     }
 
-    .user-mini p {
-      font-size: 12px;
-      color: var(--muted);
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 24px;
+      border-radius: 999px;
+      background: #08090C;
+      z-index: 2;
     }
 
-    .nav {
-      display: grid;
-      gap: 8px;
-    }
-
-    .nav-btn {
-      padding: 13px 14px;
-      background: transparent;
-      color: var(--muted);
-      border-radius: 15px;
-      text-align: left;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      transition: 0.2s ease;
-    }
-
-    .nav-btn:hover,
-    .nav-btn.active {
-      background: rgba(0, 209, 255, 0.09);
-      color: var(--text);
-    }
-
-    .content-area {
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      background: rgba(255, 255, 255, 0.035);
-      padding: 24px;
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 36px;
       overflow: hidden;
+      position: relative;
+      background: var(--ios-bg);
+      color: var(--ios-text);
     }
 
-    .vault-header {
+    .phone-status {
+      position: absolute;
+      top: 12px;
+      left: 20px;
+      right: 20px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 24px;
+      font-size: 12px;
+      font-weight: 800;
+      z-index: 5;
+      color: inherit;
     }
 
-    .vault-header h2 {
-      font-size: 26px;
-      letter-spacing: -0.5px;
-      margin-bottom: 4px;
+    .phone-content {
+      height: 100%;
+      padding: 48px 17px 18px;
+      overflow: auto;
     }
 
-    .vault-header p {
-      color: var(--muted);
-      font-size: 13px;
+    .home-bg {
+      height: 100%;
+      color: white;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(0,209,255,.4), transparent 30%),
+        radial-gradient(circle at 90% 85%, rgba(139,92,246,.55), transparent 40%),
+        linear-gradient(145deg,#111827,#05070B);
     }
 
-    .small-actions {
-      display: flex;
-      gap: 10px;
-    }
-
-    .icon-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text);
-      border: 1px solid var(--line);
-      display: grid;
-      place-items: center;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
+    .home-date {
+      text-align: center;
+      padding-top: 18px;
       margin-bottom: 22px;
     }
 
-    .stat-card {
-      background: var(--surface-2);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 18px;
+    .home-date h2 {
+      font-size: 46px;
+      letter-spacing: -1px;
+      font-weight: 300;
     }
 
-    .stat-card .stat-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 14px;
-      background: rgba(0, 209, 255, 0.1);
-      color: var(--cyan);
+    .home-date p {
+      font-size: 13px;
+      opacity: .78;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 18px 12px;
+      padding: 0 5px;
+    }
+
+    .home-app {
+      display: grid;
+      justify-items: center;
+      gap: 7px;
+      color: white;
+      background: transparent;
+      font-size: 11px;
+    }
+
+    .home-app .mini-app-icon {
+      width: 53px;
+      height: 53px;
+      border-radius: 16px;
+      font-size: 23px;
+    }
+
+    .dock {
+      position: absolute;
+      left: 17px;
+      right: 17px;
+      bottom: 18px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 10px;
+      border-radius: 24px;
+      background: rgba(255,255,255,.13);
+      backdrop-filter: blur(16px);
+    }
+
+    .dock .home-app span {
+      display: none;
+    }
+
+    .app-toolbar {
+      display: flex;
+      gap: 9px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .small {
+      width: auto;
+      padding: 10px 13px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+
+    .workspace {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 22px;
+      background: rgba(255,255,255,.035);
+      overflow: hidden;
+    }
+
+    .workspace-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .workspace-head h2 {
+      font-size: 25px;
+      margin-bottom: 5px;
+      letter-spacing: -.4px;
+    }
+
+    .workspace-head p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .nav-chip {
+      width: auto;
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .nav-chip.active {
+      color: white;
+      background: rgba(0,209,255,.13);
+      border-color: rgba(0,209,255,.35);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat {
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      border-radius: 19px;
+      padding: 16px;
+    }
+
+    .stat i {
+      width: 36px;
+      height: 36px;
+      border-radius: 13px;
       display: grid;
       place-items: center;
-      margin-bottom: 16px;
+      background: rgba(0,209,255,.1);
+      color: var(--cyan);
+      font-style: normal;
+      margin-bottom: 14px;
     }
 
-    .stat-card h3 {
+    .stat strong {
+      display: block;
       font-size: 22px;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
-    .stat-card p {
+    .stat span {
       color: var(--muted);
       font-size: 12px;
     }
@@ -607,124 +651,115 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 22px 0 14px;
+      margin: 18px 0 12px;
     }
 
     .section-title h3 {
-      font-size: 17px;
+      font-size: 16px;
     }
 
     .section-title span {
-      color: var(--muted);
       font-size: 12px;
+      color: var(--muted);
     }
 
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(4,1fr);
+      gap: 11px;
     }
 
-    .photo-box {
+    .photo {
       aspect-ratio: 1;
-      border-radius: 18px;
+      border-radius: 17px;
       background:
-        linear-gradient(135deg, rgba(0, 209, 255, 0.25), rgba(139, 92, 246, 0.25)),
-        var(--surface-3);
-      position: relative;
-      overflow: hidden;
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.26), transparent 24%),
+        linear-gradient(135deg, rgba(0,209,255,.28), rgba(139,92,246,.3)),
+        #263246;
+      filter: blur(.2px);
     }
 
-    .photo-box::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.22), transparent 28%),
-        radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.28), transparent 35%);
-    }
-
-    .file-list,
-    .settings-list,
-    .note-list {
+    .list {
       display: grid;
-      gap: 12px;
+      gap: 11px;
     }
 
-    .list-item {
-      padding: 15px;
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
       border: 1px solid var(--line);
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.035);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
+      padding: 14px;
+      background: rgba(255,255,255,.035);
     }
 
-    .list-left {
+    .item-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
     }
 
-    .list-icon {
+    .item-icon {
       width: 40px;
       height: 40px;
       border-radius: 14px;
-      background: rgba(255, 255, 255, 0.06);
       display: grid;
       place-items: center;
+      background: rgba(255,255,255,.07);
+      font-size: 13px;
     }
 
-    .list-item h4 {
+    .item h4 {
       font-size: 14px;
       margin-bottom: 3px;
     }
 
-    .list-item p {
+    .item p {
       color: var(--muted);
       font-size: 12px;
     }
 
     .badge {
-      font-size: 11px;
       padding: 6px 9px;
       border-radius: 999px;
+      background: rgba(0,209,255,.1);
       color: var(--cyan);
-      background: rgba(0, 209, 255, 0.1);
+      font-size: 11px;
+      white-space: nowrap;
     }
 
-    .pricing-grid {
+    .price-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin: 20px 0;
+      grid-template-columns: repeat(3,1fr);
+      gap: 12px;
+      margin: 18px 0;
     }
 
-    .price-card {
-      padding: 18px;
+    .price {
       border: 1px solid var(--line);
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.035);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,.035);
       position: relative;
     }
 
-    .price-card.best {
-      border-color: rgba(0, 209, 255, 0.6);
-      background: rgba(0, 209, 255, 0.07);
+    .price.best {
+      border-color: rgba(0,209,255,.55);
+      background: rgba(0,209,255,.07);
     }
 
-    .price-card h3 {
-      font-size: 16px;
+    .price h3 {
+      font-size: 15px;
       margin-bottom: 8px;
     }
 
-    .price-card strong {
+    .price strong {
       font-size: 26px;
     }
 
-    .price-card p {
+    .price p {
       color: var(--muted);
       font-size: 12px;
       margin-top: 6px;
@@ -732,516 +767,631 @@
 
     .best-label {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      background: linear-gradient(135deg, var(--cyan), var(--purple));
-      color: white;
-      border-radius: 999px;
-      padding: 5px 8px;
+      top: 10px;
+      right: 10px;
       font-size: 10px;
-      font-weight: 700;
+      font-weight: 900;
+      padding: 5px 8px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg,var(--cyan),var(--purple));
     }
 
-    .fake-phone-wrap {
-      display: grid;
-      place-items: center;
-      min-height: 600px;
-    }
-
-    .phone {
-      width: 330px;
-      min-height: 620px;
-      border-radius: 42px;
-      padding: 18px;
-      background: #111;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
-    }
-
-    .phone-screen {
-      min-height: 584px;
-      border-radius: 32px;
-      overflow: hidden;
-      background: var(--fake-bg);
-      color: var(--fake-text);
-      padding: 20px;
+    /* Fake apps */
+    .fake-app-page {
+      background: var(--ios-bg);
+      color: var(--ios-text);
     }
 
     .fake-title {
-      font-size: 22px;
-      font-weight: 800;
-      margin-bottom: 20px;
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: -.4px;
+      margin-bottom: 18px;
     }
 
-    .calculator-display {
-      height: 130px;
+    .calc-display {
+      height: 135px;
       display: flex;
-      align-items: flex-end;
       justify-content: flex-end;
+      align-items: flex-end;
       font-size: 46px;
       font-weight: 300;
+      padding-bottom: 16px;
       overflow: hidden;
       word-break: break-all;
       text-align: right;
-      padding-bottom: 18px;
     }
 
     .calc-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(4,1fr);
+      gap: 9px;
     }
 
     .calc-btn {
-      height: 58px;
+      height: 55px;
       border-radius: 50%;
-      background: #e5e5ea;
+      background: #E6E7EB;
       color: #111;
-      font-size: 20px;
+      font-size: 19px;
     }
 
     .calc-btn.dark {
-      background: #333;
-      color: white;
+      background: #33363C;
+      color: #fff;
     }
 
     .calc-btn.op {
-      background: #ff9f0a;
-      color: white;
+      background: var(--orange);
+      color: #fff;
     }
 
     .calc-btn.zero {
       grid-column: span 2;
       border-radius: 999px;
       text-align: left;
-      padding-left: 24px;
+      padding-left: 22px;
     }
 
-    .notes-search,
-    .files-search {
+    .ios-search {
       width: 100%;
-      border: none;
-      outline: none;
-      background: #e9e9ee;
-      padding: 12px 14px;
+      border: 0;
+      outline: 0;
+      background: #E8E9EE;
+      color: var(--ios-text);
       border-radius: 14px;
-      margin-bottom: 20px;
-      color: var(--fake-text);
+      padding: 12px 13px;
+      margin-bottom: 16px;
     }
 
-    .fake-note-item,
-    .fake-file-item,
-    .fake-weather-card {
-      padding: 14px;
-      border-radius: 16px;
-      background: var(--fake-card);
+    .ios-card {
+      padding: 13px;
+      border-radius: 15px;
+      background: #fff;
+      border: 1px solid #E6E8EF;
       margin-bottom: 10px;
-      border: 1px solid var(--fake-line);
     }
 
-    .fake-note-item h4,
-    .fake-file-item h4 {
+    .ios-card h4 {
       font-size: 14px;
       margin-bottom: 4px;
     }
 
-    .fake-note-item p,
-    .fake-file-item p {
+    .ios-card p {
+      color: var(--ios-muted);
       font-size: 12px;
-      color: var(--fake-muted);
+      line-height: 1.4;
     }
 
-    .weather-temp {
+    .weather {
       text-align: center;
-      padding: 36px 0 24px;
+      padding: 28px 0 18px;
     }
 
-    .weather-temp h2 {
+    .weather h2 {
       font-size: 72px;
       font-weight: 300;
     }
 
-    .weather-temp p {
-      color: var(--fake-muted);
+    .weather p {
+      color: var(--ios-muted);
       margin-top: 4px;
     }
 
-    .hidden {
-      display: none !important;
+    .bottom-home {
+      position: absolute;
+      left: 50%;
+      bottom: 7px;
+      transform: translateX(-50%);
+      width: 115px;
+      height: 5px;
+      border-radius: 999px;
+      background: currentColor;
+      opacity: .6;
     }
 
-    @media (max-width: 980px) {
-      body {
-        padding: 14px;
-      }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 28px;
+      transform: translateX(-50%);
+      padding: 12px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: white;
+      background: rgba(8,10,15,.9);
+      box-shadow: var(--shadow);
+      display: none;
+      z-index: 20;
+      font-size: 13px;
+    }
 
-      .app-shell {
+    .toast.show {
+      display: block;
+    }
+
+
+    .plan-toggle {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .plan-option {
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,.035);
+      color: var(--text);
+      position: relative;
+      transition: .18s ease;
+    }
+
+    .plan-option:hover,
+    .plan-option.active {
+      border-color: rgba(0,209,255,.6);
+      background: rgba(0,209,255,.08);
+      transform: translateY(-2px);
+    }
+
+    .plan-option h3 {
+      font-size: 15px;
+      margin-bottom: 7px;
+    }
+
+    .plan-option strong {
+      display: block;
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
+
+    .plan-option p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .plan-detail {
+      border: 1px solid rgba(0,209,255,.18);
+      border-radius: 22px;
+      padding: 18px;
+      background:
+        radial-gradient(circle at top right, rgba(0,209,255,.12), transparent 36%),
+        rgba(255,255,255,.035);
+      margin: 16px 0;
+    }
+
+    .plan-detail-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .plan-detail h3 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .plan-detail p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .plan-price {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .plan-price strong {
+      display: block;
+      font-size: 30px;
+    }
+
+    .plan-price span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .compare-table {
+      display: grid;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .compare-row {
+      display: grid;
+      grid-template-columns: 1fr 90px;
+      gap: 12px;
+      align-items: center;
+      padding: 11px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .compare-row span:first-child {
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .compare-row span:last-child {
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .premium-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 1050px) {
+      .app {
         grid-template-columns: 1fr;
       }
-
-      .brand-panel {
+      .left {
         display: none;
       }
-
-      .app-layout {
+      .main-grid {
         grid-template-columns: 1fr;
       }
-
-      .sidebar {
-        min-height: auto;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .pricing-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .disguise-grid {
-        grid-template-columns: 1fr;
+      .stat-grid {
+        grid-template-columns: repeat(2,1fr);
       }
     }
 
-    @media (max-width: 560px) {
-      .main-panel {
-        padding: 18px;
-      }
+    @media (max-width: 620px) {
+      body { padding: 10px; }
+      .right { padding: 16px; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .disguise-grid, .price-grid, .stat-grid { grid-template-columns: 1fr; }
 
-      .panel-header {
-        flex-direction: column;
-      }
-
-      .stats-grid {
+      .plan-toggle {
         grid-template-columns: 1fr;
       }
-
-      .photo-grid {
-        grid-template-columns: repeat(3, 1fr);
+      .plan-detail-top {
+        flex-direction: column;
+      }
+      .plan-price {
+        text-align: left;
       }
 
-      .phone {
-        width: 100%;
-      }
+      .photo-grid { grid-template-columns: repeat(3,1fr); }
+      .phone { width: 100%; max-width: 315px; }
     }
   </style>
 </head>
-
 <body>
-  <main class="app-shell">
-    <aside class="brand-panel">
-      <div>
-        <div class="logo-row">
-          <div class="logo-mark">H</div>
-          <div class="logo-text">
-            <h1>Hidder</h1>
-            <p>Stealth Privacy Vault</p>
-          </div>
+  <div class="app">
+    <aside class="left">
+      <div class="brand">
+        <img src="assets/hidder-logo.png" alt="Hidder logo" onerror="this.style.display='none'; document.querySelector('.fallback-logo').style.display='grid';" />
+        <div class="fallback-logo mini-app-icon calc-ico" style="display:none;">H</div>
+        <div>
+          <h1>Hidder</h1>
+          <p>Stealth Privacy Vault</p>
         </div>
       </div>
 
-      <div class="hero-copy">
-        <h2>Một lớp vỏ bình thường. Một không gian riêng tư bên trong.</h2>
+      <div class="hero">
+        <h2>Ẩn dữ liệu trong một app bình thường.</h2>
         <p>
-          Hidder giúp người dùng lưu trữ dữ liệu cá nhân trong một không gian riêng tư,
-          được ngụy trang như Calculator, Notes, Weather hoặc Files.
+          Prototype này mô phỏng đúng trải nghiệm: đăng nhập, thiết lập lớp vỏ,
+          vào màn điện thoại giả, mở app ngụy trang, nhập mã thật để vào Vault
+          hoặc mã giả để vào Decoy Vault.
         </p>
       </div>
 
-      <div class="feature-stack">
-        <div class="feature-item">
+      <div class="feature">
+        <div class="feature-card">
+          <div class="feature-icon">▣</div>
+          <div>
+            <h3>Màn điện thoại giả</h3>
+            <p>Login xong không vào Vault ngay mà thấy home screen như điện thoại thật.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
           <div class="feature-icon">◐</div>
           <div>
-            <h3>Ngụy trang tự nhiên</h3>
-            <p>App bên ngoài hoạt động như một ứng dụng bình thường.</p>
+            <h3>Fake app tương tác được</h3>
+            <p>Calculator, Notes, Weather, Files đều có thể mở và thao tác cơ bản.</p>
           </div>
         </div>
 
-        <div class="feature-item">
-          <div class="feature-icon">✦</div>
-          <div>
-            <h3>Mở khóa ngầm</h3>
-            <p>Mở Hidden Vault bằng mã bí mật hoặc thao tác kín đáo.</p>
-          </div>
-        </div>
-
-        <div class="feature-item">
+        <div class="feature-card">
           <div class="feature-icon">⌁</div>
           <div>
-            <h3>Decoy Vault</h3>
-            <p>Mở không gian giả khi cần tránh bị nghi ngờ.</p>
+            <h3>Quick Escape</h3>
+            <p>Thoát khỏi Vault về màn điện thoại giả để nhìn không khác app thường.</p>
           </div>
         </div>
       </div>
     </aside>
 
-    <section class="main-panel">
-      <!-- AUTH SCREEN -->
+    <main class="right">
+      <!-- AUTH -->
       <section id="authScreen" class="screen active">
-        <div class="panel-header">
+        <div class="topbar">
           <div>
-            <h2>Chào mừng đến Hidder</h2>
-            <p>
-              Vui lòng đăng nhập hoặc đăng ký trước. Sau đó bạn mới có thể thiết lập lớp vỏ
-              ngụy trang và không gian riêng tư.
-            </p>
+            <h2>Đăng nhập vào Hidder</h2>
+            <p>Phải đăng nhập hoặc đăng ký trước, sau đó mới được setup lớp vỏ cho app.</p>
           </div>
-          <span class="pill">Bắt đầu an toàn</span>
+          <span class="pill">No Ads · Private UI</span>
         </div>
 
-        <div class="auth-card">
+        <div class="card">
           <div class="tabs">
-            <button class="tab-btn active" id="loginTab" onclick="switchAuth('login')">Đăng nhập</button>
-            <button class="tab-btn" id="registerTab" onclick="switchAuth('register')">Đăng ký</button>
+            <button id="loginTab" class="tab active" onclick="switchAuth('login')">Đăng nhập</button>
+            <button id="registerTab" class="tab" onclick="switchAuth('register')">Đăng ký</button>
           </div>
 
           <div id="loginForm">
-            <div class="form-group">
+            <div class="field">
               <label>Email</label>
-              <input id="loginEmail" class="input" type="email" placeholder="you@example.com" />
+              <input id="loginEmail" class="input" type="email" placeholder="demo@hidder.app" />
             </div>
 
-            <div class="form-group">
+            <div class="field">
               <label>Mật khẩu</label>
-              <input id="loginPassword" class="input" type="password" placeholder="Nhập mật khẩu" />
+              <input id="loginPassword" class="input" type="password" placeholder="123456" />
             </div>
 
             <button class="btn" onclick="login()">Đăng nhập</button>
-
-            <p class="helper">
-              Tài khoản demo: <b>demo@hidder.app</b> / <b>123456</b>
-            </p>
+            <p class="hint">Tài khoản demo: <b>demo@hidder.app</b> / <b>123456</b></p>
           </div>
 
           <div id="registerForm" class="hidden">
-            <div class="form-group">
-              <label>Tên người dùng</label>
-              <input id="registerName" class="input" type="text" placeholder="Ví dụ: Kiet Nguyen" />
+            <div class="field">
+              <label>Tên</label>
+              <input id="registerName" class="input" type="text" placeholder="Kiet Nguyen" />
             </div>
 
-            <div class="form-group">
+            <div class="field">
               <label>Email</label>
               <input id="registerEmail" class="input" type="email" placeholder="you@example.com" />
             </div>
 
-            <div class="form-group">
+            <div class="field">
               <label>Mật khẩu</label>
               <input id="registerPassword" class="input" type="password" placeholder="Tối thiểu 6 ký tự" />
             </div>
 
             <button class="btn" onclick="register()">Tạo tài khoản</button>
-
-            <p class="helper">
-              Đây là prototype frontend nên tài khoản được lưu tạm bằng localStorage.
-            </p>
+            <p class="hint">Prototype lưu user bằng localStorage để test UX nhanh.</p>
           </div>
 
           <div id="authMessage" class="message"></div>
         </div>
       </section>
 
-      <!-- SETUP SCREEN -->
+      <!-- SETUP -->
       <section id="setupScreen" class="screen">
-        <div class="panel-header">
+        <div class="topbar">
           <div>
-            <h2>Thiết lập Hidder</h2>
-            <p>
-              Chọn lớp vỏ ngụy trang, tạo mã mở Hidden Vault và tạo Decoy Vault nếu cần.
-            </p>
+            <h2>Setup Hidder</h2>
+            <p>Sau bước này, app sẽ chạy trong màn điện thoại giả thay vì vào Vault trực tiếp.</p>
           </div>
-          <span class="pill" id="setupStepLabel">Bước 1/3</span>
+          <span id="stepText" class="pill">Bước 1/3</span>
         </div>
 
-        <div class="setup-card">
+        <div class="card">
           <div class="progress">
-            <span id="progress1" class="active"></span>
-            <span id="progress2"></span>
-            <span id="progress3"></span>
+            <span id="p1" class="active"></span>
+            <span id="p2"></span>
+            <span id="p3"></span>
           </div>
 
-          <div id="setupStep1">
-            <h3 style="margin-bottom: 8px;">Chọn lớp vỏ ngụy trang</h3>
-            <p class="helper" style="margin-bottom: 18px;">
-              Đây là giao diện người khác sẽ thấy khi mở app.
-            </p>
+          <div id="setup1">
+            <h3>Chọn app ngụy trang</h3>
+            <p class="hint" style="margin-bottom:16px;">App được chọn sẽ xuất hiện trên màn điện thoại giả.</p>
 
             <div class="disguise-grid">
-              <button class="disguise-card" onclick="selectDisguise('Calculator', this)">
-                <div class="disguise-top">
-                  <div class="app-icon">＋</div>
-                  <span class="badge">Phổ biến</span>
+              <button class="disguise" onclick="selectDisguise('Calculator', this)">
+                <div class="disguise-head">
+                  <div class="mini-app-icon calc-ico">＋</div>
+                  <span class="badge">Best</span>
                 </div>
                 <h3>Calculator</h3>
-                <p>Trông như máy tính. Nhập mã bí mật để mở Vault.</p>
-                <div class="mini-preview">
-                  <span class="mini-dot"></span>
-                  <span class="mini-dot"></span>
-                  <span class="mini-dot"></span>
-                  <span class="mini-line"></span>
-                </div>
+                <p>Máy tính thật. Nhập mã dạng 1234= để mở Vault.</p>
               </button>
 
-              <button class="disguise-card" onclick="selectDisguise('Notes', this)">
-                <div class="disguise-top">
-                  <div class="app-icon">☰</div>
+              <button class="disguise" onclick="selectDisguise('Notes', this)">
+                <div class="disguise-head">
+                  <div class="mini-app-icon note-ico">☰</div>
                 </div>
                 <h3>Notes</h3>
-                <p>Trông như app ghi chú. Nhập keyword bí mật trong search.</p>
-                <div class="mini-preview">
-                  <span class="mini-line"></span>
-                  <span class="mini-line"></span>
-                </div>
+                <p>App ghi chú. Nhập keyword bí mật vào thanh tìm kiếm.</p>
               </button>
 
-              <button class="disguise-card" onclick="selectDisguise('Weather', this)">
-                <div class="disguise-top">
-                  <div class="app-icon">☁</div>
+              <button class="disguise" onclick="selectDisguise('Weather', this)">
+                <div class="disguise-head">
+                  <div class="mini-app-icon weather-ico">☁</div>
                 </div>
                 <h3>Weather</h3>
-                <p>Hiển thị thời tiết đơn giản, bình thường, không gây chú ý.</p>
-                <div class="mini-preview">
-                  <span class="mini-dot"></span>
-                  <span class="mini-line"></span>
-                </div>
+                <p>App thời tiết. Nhấn giữ khu vực nhiệt độ để mở Vault.</p>
               </button>
 
-              <button class="disguise-card" onclick="selectDisguise('Files', this)">
-                <div class="disguise-top">
-                  <div class="app-icon">▣</div>
+              <button class="disguise" onclick="selectDisguise('Files', this)">
+                <div class="disguise-head">
+                  <div class="mini-app-icon files-ico">▤</div>
                 </div>
                 <h3>Files</h3>
-                <p>Trông như trình quản lý tệp cơ bản với folder giả.</p>
-                <div class="mini-preview">
-                  <span class="mini-dot"></span>
-                  <span class="mini-line"></span>
-                </div>
+                <p>Quản lý file giả. Tìm kiếm mã bí mật để vào Vault.</p>
               </button>
             </div>
 
-            <div style="margin-top: 22px;">
-              <button class="btn" onclick="nextSetupStep()">Tiếp tục</button>
+            <div style="margin-top:18px;">
+              <button class="btn" onclick="nextStep()">Tiếp tục</button>
             </div>
           </div>
 
-          <div id="setupStep2" class="hidden">
-            <h3 style="margin-bottom: 8px;">Tạo mã mở Hidden Vault</h3>
-            <p class="helper" style="margin-bottom: 18px;">
-              Ví dụ với Calculator, mã có thể là <b>1234=</b>. Khi nhập đúng, app sẽ chuyển vào Hidden Vault.
-            </p>
+          <div id="setup2" class="hidden">
+            <h3>Tạo mã bí mật thật</h3>
+            <p class="hint" style="margin-bottom:16px;">Nếu chọn Calculator nên dùng dạng có dấu bằng, ví dụ: 1234=</p>
 
-            <div class="form-group">
-              <label>Mã bí mật thật</label>
-              <input id="secretCodeInput" class="input" type="text" placeholder="Ví dụ: 1234=" />
+            <div class="field">
+              <label>Mã thật</label>
+              <input id="secretCode" class="input" placeholder="1234=" />
             </div>
 
-            <div class="form-group">
-              <label>Nhập lại mã bí mật</label>
-              <input id="secretCodeConfirm" class="input" type="text" placeholder="Nhập lại mã" />
+            <div class="field">
+              <label>Nhập lại mã thật</label>
+              <input id="secretCode2" class="input" placeholder="1234=" />
             </div>
 
             <div class="row">
-              <button class="btn secondary" onclick="prevSetupStep()">Quay lại</button>
-              <button class="btn" onclick="nextSetupStep()">Tiếp tục</button>
+              <button class="btn secondary" onclick="prevStep()">Quay lại</button>
+              <button class="btn" onclick="nextStep()">Tiếp tục</button>
             </div>
           </div>
 
-          <div id="setupStep3" class="hidden">
-            <h3 style="margin-bottom: 8px;">Tạo Decoy Vault</h3>
-            <p class="helper" style="margin-bottom: 18px;">
-              Decoy Vault là không gian giả có giao diện giống Vault thật nhưng chỉ chứa dữ liệu vô hại.
-            </p>
+          <div id="setup3" class="hidden">
+            <h3>Tạo mã giả Decoy Vault</h3>
+            <p class="hint" style="margin-bottom:16px;">Nhập mã giả sẽ mở Vault giả có dữ liệu vô hại.</p>
 
-            <div class="form-group">
+            <div class="field">
               <label>Mã giả</label>
-              <input id="decoyCodeInput" class="input" type="text" placeholder="Ví dụ: 0000=" />
+              <input id="decoyCode" class="input" placeholder="0000=" />
             </div>
 
-            <div class="form-group">
-              <label>Nội dung mẫu trong Decoy Vault</label>
-              <input id="decoyContentInput" class="input" type="text" placeholder="Ví dụ: Ảnh phong cảnh, tài liệu học tập" />
+            <div class="field">
+              <label>Nội dung vô hại</label>
+              <input id="decoyContent" class="input" placeholder="Ảnh phong cảnh, tài liệu học tập" />
             </div>
 
             <div class="row">
-              <button class="btn secondary" onclick="prevSetupStep()">Quay lại</button>
-              <button class="btn" onclick="finishSetup()">Hoàn tất thiết lập</button>
+              <button class="btn secondary" onclick="prevStep()">Quay lại</button>
+              <button class="btn" onclick="finishSetup()">Hoàn tất</button>
             </div>
 
-            <button class="btn ghost" style="margin-top: 12px;" onclick="skipDecoy()">Bỏ qua Decoy Vault</button>
+            <button class="btn ghost" style="margin-top:10px;" onclick="skipDecoy()">Bỏ qua Decoy Vault</button>
           </div>
 
           <div id="setupMessage" class="message"></div>
         </div>
       </section>
 
-      <!-- MAIN APP SCREEN -->
-      <section id="mainAppScreen" class="screen">
-        <div class="app-layout">
-          <aside class="sidebar">
-            <div>
-              <div class="user-mini">
-                <div class="avatar" id="avatarText">K</div>
-                <div>
-                  <h3 id="sidebarName">Kiet Nguyen</h3>
-                  <p id="sidebarEmail">demo@hidder.app</p>
+      <!-- APP EXPERIENCE -->
+      <section id="appScreen" class="screen">
+        <div class="topbar">
+          <div>
+            <h2 id="mainTitle">Màn điện thoại giả</h2>
+            <p id="mainSub">Đây là trạng thái sau khi đăng nhập. Người ngoài chỉ thấy một điện thoại bình thường.</p>
+          </div>
+          <span class="pill" id="sessionUser">User</span>
+        </div>
+
+        <div class="main-grid">
+          <div class="phone-wrap">
+            <div class="phone">
+              <div id="phoneScreen" class="phone-screen"></div>
+            </div>
+
+            <div class="app-toolbar">
+              <button class="btn secondary small" onclick="renderHome()">Home</button>
+              <button class="btn secondary small" onclick="openSelectedFakeApp()">Mở app ngụy trang</button>
+              <button class="btn secondary small" onclick="quickEscape()">Quick Escape</button>
+            </div>
+          </div>
+
+          <div class="workspace">
+            <div class="workspace-head">
+              <div>
+                <h2 id="workspaceTitle">Hidder Control</h2>
+                <p id="workspaceDesc">Dùng khu vực này để kiểm tra Vault, Settings, Premium và trạng thái app.</p>
+              </div>
+              <button class="btn danger small" onclick="logout()">Đăng xuất</button>
+            </div>
+
+            <div class="sidebar-nav">
+              <button class="nav-chip active" onclick="showPanel('overview', this)">Overview</button>
+              <button class="nav-chip" onclick="showPanel('vault', this)">Hidden Vault</button>
+              <button class="nav-chip" onclick="showPanel('decoy', this)">Decoy</button>
+              <button class="nav-chip" onclick="showPanel('settings', this)">Settings</button>
+              <button class="nav-chip" onclick="showPanel('premium', this)">Premium</button>
+            </div>
+
+            <div id="panelOverview" class="panel">
+              <div class="stat-grid">
+                <div class="stat">
+                  <i>▣</i>
+                  <strong id="overviewDisguise">Calculator</strong>
+                  <span>App ngụy trang</span>
+                </div>
+                <div class="stat">
+                  <i>◐</i>
+                  <strong>Ready</strong>
+                  <span>Fake app</span>
+                </div>
+                <div class="stat">
+                  <i>⌁</i>
+                  <strong id="overviewDecoy">On</strong>
+                  <span>Decoy Vault</span>
+                </div>
+                <div class="stat">
+                  <i>✦</i>
+                  <strong>No Ads</strong>
+                  <span>Clean UX</span>
                 </div>
               </div>
 
-              <nav class="nav">
-                <button class="nav-btn active" onclick="showAppPage('dashboard', this)">◐ Dashboard</button>
-                <button class="nav-btn" onclick="showAppPage('fakeApp', this)">▣ Fake App</button>
-                <button class="nav-btn" onclick="showAppPage('photos', this)">◧ Photos</button>
-                <button class="nav-btn" onclick="showAppPage('files', this)">▤ Files</button>
-                <button class="nav-btn" onclick="showAppPage('notes', this)">☰ Notes</button>
-                <button class="nav-btn" onclick="showAppPage('decoy', this)">⌁ Decoy Vault</button>
-                <button class="nav-btn" onclick="showAppPage('premium', this)">✦ Premium</button>
-                <button class="nav-btn" onclick="showAppPage('settings', this)">⚙ Settings</button>
-              </nav>
-            </div>
-
-            <div style="display: grid; gap: 10px;">
-              <button class="btn secondary" onclick="quickEscape()">Quick Escape</button>
-              <button class="btn danger" onclick="logout()">Đăng xuất</button>
-            </div>
-          </aside>
-
-          <section class="content-area">
-            <!-- DASHBOARD -->
-            <div id="pageDashboard" class="app-page">
-              <div class="vault-header">
-                <div>
-                  <h2>Hidden Vault</h2>
-                  <p>Không gian riêng tư của bạn</p>
-                </div>
-                <div class="small-actions">
-                  <button class="icon-btn" onclick="quickEscape()" title="Quick Escape">◉</button>
-                  <button class="icon-btn" onclick="showAppPageByName('settings')" title="Settings">⚙</button>
-                </div>
+              <div class="section-title">
+                <h3>Flow đúng hiện tại</h3>
+                <span>Login → Phone → Fake app → Vault</span>
               </div>
 
-              <div class="stats-grid">
-                <div class="stat-card">
-                  <div class="stat-icon">◧</div>
-                  <h3>248</h3>
-                  <p>Photos / Videos</p>
+              <div class="list">
+                <div class="item">
+                  <div class="item-left">
+                    <div class="item-icon">1</div>
+                    <div>
+                      <h4>Đăng nhập / Đăng ký</h4>
+                      <p>User không thấy Vault ngay từ đầu.</p>
+                    </div>
+                  </div>
+                  <span class="badge">Done</span>
                 </div>
 
-                <div class="stat-card">
-                  <div class="stat-icon">▤</div>
-                  <h3>37</h3>
-                  <p>Secure Files</p>
+                <div class="item">
+                  <div class="item-left">
+                    <div class="item-icon">2</div>
+                    <div>
+                      <h4>Màn điện thoại giả</h4>
+                      <p>Có app icon, dock, app ngụy trang và app bình thường khác.</p>
+                    </div>
+                  </div>
+                  <span class="badge">New</span>
                 </div>
 
-                <div class="stat-card">
-                  <div class="stat-icon">☰</div>
-                  <h3>18</h3>
-                  <p>Secure Notes</p>
+                <div class="item">
+                  <div class="item-left">
+                    <div class="item-icon">3</div>
+                    <div>
+                      <h4>Mở khóa ngầm</h4>
+                      <p>Nhập mã thật vào fake app mới vào Hidden Vault.</p>
+                    </div>
+                  </div>
+                  <span class="badge">Stealth</span>
                 </div>
+              </div>
+            </div>
 
-                <div class="stat-card">
-                  <div class="stat-icon">✦</div>
-                  <h3>12</h3>
-                  <p>Accounts</p>
-                </div>
+            <div id="panelVault" class="panel hidden">
+              <div class="stat-grid">
+                <div class="stat"><i>◧</i><strong>248</strong><span>Photos</span></div>
+                <div class="stat"><i>▤</i><strong>37</strong><span>Files</span></div>
+                <div class="stat"><i>☰</i><strong>18</strong><span>Notes</span></div>
+                <div class="stat"><i>✦</i><strong>12</strong><span>Accounts</span></div>
               </div>
 
               <div class="section-title">
@@ -1250,469 +1400,266 @@
               </div>
 
               <div class="photo-grid">
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
+                <div class="photo"></div><div class="photo"></div><div class="photo"></div><div class="photo"></div>
+                <div class="photo"></div><div class="photo"></div><div class="photo"></div><div class="photo"></div>
               </div>
 
-              <div style="margin-top: 22px;">
-                <button class="btn" onclick="openAddMenu()">+ Thêm dữ liệu vào Vault</button>
-              </div>
+              <button class="btn" style="margin-top:16px;" onclick="toast('Prototype: mở bottom sheet thêm Photos, Files, Notes, Passwords')">+ Add to Vault</button>
             </div>
 
-            <!-- FAKE APP -->
-            <div id="pageFakeApp" class="app-page hidden">
-              <div class="vault-header">
-                <div>
-                  <h2>Fake App Preview</h2>
-                  <p>Đây là giao diện người khác sẽ thấy khi mở app.</p>
-                </div>
-                <span class="pill" id="fakeAppName">Calculator</span>
-              </div>
-
-              <div class="fake-phone-wrap">
-                <div class="phone">
-                  <div class="phone-screen" id="fakePhoneScreen"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- PHOTOS -->
-            <div id="pagePhotos" class="app-page hidden">
-              <div class="vault-header">
-                <div>
-                  <h2>Photos / Videos</h2>
-                  <p>Ảnh và video riêng tư được hiển thị dạng lưới.</p>
-                </div>
-                <button class="icon-btn">+</button>
-              </div>
-
-              <div class="photo-grid">
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-              </div>
-            </div>
-
-            <!-- FILES -->
-            <div id="pageFiles" class="app-page hidden">
-              <div class="vault-header">
-                <div>
-                  <h2>Secure Files</h2>
-                  <p>Tài liệu cá nhân được lưu trong không gian riêng tư.</p>
-                </div>
-                <button class="icon-btn">+</button>
-              </div>
-
-              <div class="file-list">
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">PDF</div>
-                    <div>
-                      <h4>personal_document.pdf</h4>
-                      <p>2.4MB · Updated today</p>
-                    </div>
-                  </div>
-                  <span class="badge">Private</span>
-                </div>
-
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">DOC</div>
-                    <div>
-                      <h4>study_note.docx</h4>
-                      <p>580KB · Yesterday</p>
-                    </div>
-                  </div>
-                  <span class="badge">Private</span>
-                </div>
-
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">IMG</div>
-                    <div>
-                      <h4>scan_image.png</h4>
-                      <p>1.8MB · 2 days ago</p>
-                    </div>
-                  </div>
-                  <span class="badge">Private</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- NOTES -->
-            <div id="pageNotes" class="app-page hidden">
-              <div class="vault-header">
-                <div>
-                  <h2>Secure Notes</h2>
-                  <p>Ghi chú riêng tư, tự động lưu và dễ tìm kiếm.</p>
-                </div>
-                <button class="icon-btn">+</button>
-              </div>
-
-              <div class="note-list">
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">☰</div>
-                    <div>
-                      <h4>Private plan</h4>
-                      <p>Auto saved · 10 minutes ago</p>
-                    </div>
-                  </div>
-                  <span class="badge">Pinned</span>
-                </div>
-
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">☰</div>
-                    <div>
-                      <h4>Important reminder</h4>
-                      <p>Auto saved · Yesterday</p>
-                    </div>
-                  </div>
-                  <span class="badge">Note</span>
-                </div>
-              </div>
-
-              <div style="margin-top: 18px;">
-                <textarea class="input" rows="7" placeholder="Start writing a secure note..."></textarea>
-                <p class="helper">Auto saved</p>
-              </div>
-            </div>
-
-            <!-- DECOY -->
-            <div id="pageDecoy" class="app-page hidden">
-              <div class="vault-header">
-                <div>
-                  <h2>Vault Preview</h2>
-                  <p>Giao diện giống Vault thật, nhưng chỉ chứa dữ liệu vô hại.</p>
-                </div>
-                <span class="pill">Looks normal</span>
-              </div>
-
-              <div class="stats-grid">
-                <div class="stat-card">
-                  <div class="stat-icon">◧</div>
-                  <h3>32</h3>
-                  <p>Travel Photos</p>
-                </div>
-
-                <div class="stat-card">
-                  <div class="stat-icon">▤</div>
-                  <h3>8</h3>
-                  <p>School Files</p>
-                </div>
-
-                <div class="stat-card">
-                  <div class="stat-icon">☰</div>
-                  <h3>5</h3>
-                  <p>Normal Notes</p>
-                </div>
-
-                <div class="stat-card">
-                  <div class="stat-icon">✦</div>
-                  <h3>0</h3>
-                  <p>Accounts</p>
-                </div>
+            <div id="panelDecoy" class="panel hidden">
+              <div class="stat-grid">
+                <div class="stat"><i>◧</i><strong>32</strong><span>Travel Photos</span></div>
+                <div class="stat"><i>▤</i><strong>8</strong><span>School Files</span></div>
+                <div class="stat"><i>☰</i><strong>5</strong><span>Normal Notes</span></div>
+                <div class="stat"><i>✦</i><strong>0</strong><span>Accounts</span></div>
               </div>
 
               <div class="section-title">
-                <h3>Harmless content</h3>
-                <span id="decoyContentText">Ảnh phong cảnh, tài liệu học tập</span>
+                <h3>Nội dung vô hại</h3>
+                <span id="decoyText">Ảnh phong cảnh, tài liệu học tập</span>
               </div>
 
               <div class="photo-grid">
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
-                <div class="photo-box"></div>
+                <div class="photo"></div><div class="photo"></div><div class="photo"></div><div class="photo"></div>
               </div>
             </div>
 
-            <!-- PREMIUM -->
-            <div id="pagePremium" class="app-page hidden">
-              <div class="vault-header">
-                <div>
-                  <h2>Hidder Stealth Pro</h2>
-                  <p>Mở khóa toàn bộ tính năng riêng tư nâng cao.</p>
-                </div>
-                <span class="pill">No Ads</span>
-              </div>
-
-              <div class="settings-list">
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">✓</div>
-                    <div>
-                      <h4>Không giới hạn dung lượng cục bộ</h4>
-                      <p>Lưu nhiều dữ liệu hơn trong Vault.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">✓</div>
-                    <div>
-                      <h4>Cloud Backup mã hóa</h4>
-                      <p>Khôi phục dữ liệu khi đổi thiết bị.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">✓</div>
-                    <div>
-                      <h4>Nhiều lớp vỏ ngụy trang hơn</h4>
-                      <p>Calculator, Notes, Weather, Files, Clock và nhiều hơn.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="pricing-grid">
-                <div class="price-card">
-                  <h3>1 tháng</h3>
-                  <strong>$0.99</strong>
-                  <p>Linh hoạt, dễ thử</p>
-                </div>
-
-                <div class="price-card">
-                  <h3>3 tháng</h3>
-                  <strong>$2.99</strong>
-                  <p>Dùng dài hơn</p>
-                </div>
-
-                <div class="price-card best">
-                  <span class="best-label">Best Value</span>
-                  <h3>6 tháng</h3>
-                  <strong>$5.99</strong>
-                  <p>Phù hợp nhất</p>
-                </div>
-              </div>
-
-              <button class="btn">Bắt đầu dùng Pro</button>
-              <button class="btn ghost" style="margin-top: 10px;">Tiếp tục dùng bản miễn phí</button>
-
-              <p class="helper">
-                Hidder không bán dữ liệu cá nhân của bạn. Thông tin riêng tư luôn được bảo vệ trong môi trường an toàn.
-              </p>
-            </div>
-
-            <!-- SETTINGS -->
-            <div id="pageSettings" class="app-page hidden">
-              <div class="vault-header">
-                <div>
-                  <h2>Settings</h2>
-                  <p>Quản lý lớp vỏ ngụy trang, mã bí mật, Decoy Vault và Premium.</p>
-                </div>
-              </div>
-
-              <div class="settings-list">
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">▣</div>
+            <div id="panelSettings" class="panel hidden">
+              <div class="list">
+                <div class="item">
+                  <div class="item-left">
+                    <div class="item-icon">▣</div>
                     <div>
                       <h4>Lớp vỏ ngụy trang</h4>
                       <p id="settingDisguise">Calculator</p>
                     </div>
                   </div>
-                  <button class="icon-btn" onclick="resetSetup()">↻</button>
+                  <button class="btn secondary small" onclick="resetSetup()">Đổi</button>
                 </div>
 
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">✦</div>
+                <div class="item">
+                  <div class="item-left">
+                    <div class="item-icon">◐</div>
                     <div>
-                      <h4>Mã bí mật thật</h4>
-                      <p id="settingSecretCode">Đã thiết lập</p>
+                      <h4>Mã thật</h4>
+                      <p>Đã thiết lập. Không hiển thị để tránh lộ thông tin.</p>
                     </div>
                   </div>
                   <span class="badge">Active</span>
                 </div>
 
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">⌁</div>
+                <div class="item">
+                  <div class="item-left">
+                    <div class="item-icon">⌁</div>
                     <div>
                       <h4>Decoy Vault</h4>
-                      <p id="settingDecoyCode">Đã thiết lập</p>
+                      <p id="settingDecoy">Đã thiết lập</p>
                     </div>
                   </div>
-                  <span class="badge">Enabled</span>
+                  <span class="badge">Safe Exit</span>
                 </div>
 
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">◉</div>
+                <div class="item">
+                  <div class="item-left">
+                    <div class="item-icon">◉</div>
                     <div>
                       <h4>App Switcher Protection</h4>
-                      <p>Tự chuyển preview về fake app khi mở đa nhiệm.</p>
-                    </div>
-                  </div>
-                  <span class="badge">On</span>
-                </div>
-
-                <div class="list-item">
-                  <div class="list-left">
-                    <div class="list-icon">⚡</div>
-                    <div>
-                      <h4>Quick Escape</h4>
-                      <p>Lập tức quay về fake app.</p>
+                      <p>Khi thoát/ẩn app, preview quay về màn điện thoại giả.</p>
                     </div>
                   </div>
                   <span class="badge">On</span>
                 </div>
               </div>
             </div>
-          </section>
+
+            <div id="panelPremium" class="panel hidden">
+              <div class="section-title" style="margin-top:0;">
+                <h3>Chọn gói Hidder Stealth Pro</h3>
+                <span>Bấm từng gói để xem khác biệt</span>
+              </div>
+
+              <div class="plan-toggle">
+                <button id="planMonthly" class="plan-option active" onclick="selectPlan('monthly')">
+                  <h3>1 tháng</h3>
+                  <strong>$0.99</strong>
+                  <p>Linh hoạt, phù hợp để thử nhanh.</p>
+                </button>
+
+                <button id="planQuarter" class="plan-option" onclick="selectPlan('quarter')">
+                  <h3>3 tháng</h3>
+                  <strong>$2.99</strong>
+                  <p>Dùng dài hơn, không phải gia hạn mỗi tháng.</p>
+                </button>
+
+                <button id="planHalf" class="plan-option" onclick="selectPlan('half')">
+                  <span class="best-label">Best</span>
+                  <h3>6 tháng</h3>
+                  <strong>$5.99</strong>
+                  <p>Gói dài hạn, mở toàn bộ tính năng Pro.</p>
+                </button>
+              </div>
+
+              <div class="plan-detail">
+                <div class="plan-detail-top">
+                  <div>
+                    <h3 id="planTitle">Gói 1 tháng</h3>
+                    <p id="planDesc">Phù hợp nếu người dùng muốn thử Hidder Pro trong thời gian ngắn mà không cần cam kết dài hạn.</p>
+                  </div>
+
+                  <div class="plan-price">
+                    <strong id="planPrice">$0.99</strong>
+                    <span id="planPerMonth">$0.99 / tháng</span>
+                  </div>
+                </div>
+
+                <div class="compare-table">
+                  <div class="compare-row">
+                    <span>Không giới hạn dung lượng cục bộ</span>
+                    <span id="fStorage">Có</span>
+                  </div>
+
+                  <div class="compare-row">
+                    <span>Số lớp vỏ ngụy trang được mở</span>
+                    <span id="fDisguise">3 app</span>
+                  </div>
+
+                  <div class="compare-row">
+                    <span>Cloud Backup mã hóa</span>
+                    <span id="fBackup">Cơ bản</span>
+                  </div>
+
+                  <div class="compare-row">
+                    <span>Decoy Vault nâng cao</span>
+                    <span id="fDecoy">1 Vault</span>
+                  </div>
+
+                  <div class="compare-row">
+                    <span>Cảnh báo đăng nhập sai</span>
+                    <span id="fAlert">Cơ bản</span>
+                  </div>
+
+                  <div class="compare-row">
+                    <span>Quick Escape nâng cao</span>
+                    <span id="fEscape">Nút nhanh</span>
+                  </div>
+                </div>
+              </div>
+
+              <button id="planCTA" class="btn" onclick="toast('Prototype: chọn gói 1 tháng $0.99')">Chọn gói 1 tháng</button>
+
+              <p class="premium-note">
+                Không hiển thị popup ép mua. Premium chỉ xuất hiện trong Settings hoặc khi người dùng chạm giới hạn miễn phí.
+                Hidder không bán dữ liệu cá nhân và không có quảng cáo trong app.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
-    </section>
-  </main>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
 
   <script>
-    const defaultUser = {
+    const demoUser = {
       name: "Demo User",
       email: "demo@hidder.app",
       password: "123456",
-      setupCompleted: false,
+      setupDone: true,
       disguise: "Calculator",
       secretCode: "1234=",
       decoyCode: "0000=",
       decoyContent: "Ảnh phong cảnh, tài liệu học tập"
     };
 
-    let currentAuthMode = "login";
-    let setupStep = 1;
-    let selectedDisguise = "";
     let currentUser = null;
+    let authMode = "login";
+    let step = 1;
+    let selectedDisguise = "";
     let calcInput = "";
+    let holdTimer = null;
 
     init();
 
     function init() {
-      if (!localStorage.getItem("hidderUsers")) {
-        localStorage.setItem("hidderUsers", JSON.stringify([defaultUser]));
+      if (!localStorage.getItem("hidderUsersV2")) {
+        localStorage.setItem("hidderUsersV2", JSON.stringify([demoUser]));
       }
 
-      const session = localStorage.getItem("hidderSession");
-
+      const session = localStorage.getItem("hidderSessionV2");
       if (session) {
         currentUser = JSON.parse(session);
-
-        if (currentUser.setupCompleted) {
-          showScreen("mainAppScreen");
-          loadUserUI();
-          renderFakeApp();
+        if (currentUser.setupDone) {
+          openAppExperience();
         } else {
           showScreen("setupScreen");
-          updateSetupUI();
+          updateSetup();
         }
       }
     }
 
-    function getUsers() {
-      return JSON.parse(localStorage.getItem("hidderUsers")) || [];
+    function users() {
+      return JSON.parse(localStorage.getItem("hidderUsersV2")) || [];
     }
 
-    function saveUsers(users) {
-      localStorage.setItem("hidderUsers", JSON.stringify(users));
+    function saveUsers(data) {
+      localStorage.setItem("hidderUsersV2", JSON.stringify(data));
     }
 
-    function setSession(user) {
-      localStorage.setItem("hidderSession", JSON.stringify(user));
+    function saveSession(user) {
       currentUser = user;
+      localStorage.setItem("hidderSessionV2", JSON.stringify(user));
     }
 
-    function updateUserInStorage(updatedUser) {
-      const users = getUsers();
-      const index = users.findIndex(u => u.email === updatedUser.email);
-
-      if (index !== -1) {
-        users[index] = updatedUser;
-      } else {
-        users.push(updatedUser);
-      }
-
-      saveUsers(users);
-      setSession(updatedUser);
+    function updateUser(user) {
+      const data = users();
+      const index = data.findIndex(u => u.email === user.email);
+      if (index >= 0) data[index] = user;
+      else data.push(user);
+      saveUsers(data);
+      saveSession(user);
     }
 
-    function showScreen(screenId) {
-      document.querySelectorAll(".screen").forEach(screen => {
-        screen.classList.remove("active");
-      });
-
-      document.getElementById(screenId).classList.add("active");
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
     }
 
     function switchAuth(mode) {
-      currentAuthMode = mode;
-
+      authMode = mode;
       document.getElementById("loginTab").classList.toggle("active", mode === "login");
       document.getElementById("registerTab").classList.toggle("active", mode === "register");
-
       document.getElementById("loginForm").classList.toggle("hidden", mode !== "login");
       document.getElementById("registerForm").classList.toggle("hidden", mode !== "register");
-
       clearMessage("authMessage");
     }
 
-    function showMessage(id, text, type = "error") {
-      const el = document.getElementById(id);
-      el.textContent = text;
-      el.className = `message show ${type}`;
+    function message(id, text, type="error") {
+      const box = document.getElementById(id);
+      box.textContent = text;
+      box.className = "message show " + type;
     }
 
     function clearMessage(id) {
-      const el = document.getElementById(id);
-      el.textContent = "";
-      el.className = "message";
+      const box = document.getElementById(id);
+      box.textContent = "";
+      box.className = "message";
     }
 
     function login() {
       const email = document.getElementById("loginEmail").value.trim();
       const password = document.getElementById("loginPassword").value.trim();
+      if (!email || !password) return message("authMessage", "Vui lòng nhập email và mật khẩu.");
 
-      if (!email || !password) {
-        showMessage("authMessage", "Vui lòng nhập email và mật khẩu.");
-        return;
-      }
+      const found = users().find(u => u.email === email && u.password === password);
+      if (!found) return message("authMessage", "Sai email hoặc mật khẩu.");
 
-      const users = getUsers();
-      const user = users.find(u => u.email === email && u.password === password);
-
-      if (!user) {
-        showMessage("authMessage", "Email hoặc mật khẩu không đúng.");
-        return;
-      }
-
-      setSession(user);
-
-      if (user.setupCompleted) {
-        loadUserUI();
-        renderFakeApp();
-        showScreen("mainAppScreen");
-      } else {
-        setupStep = 1;
+      saveSession(found);
+      if (found.setupDone) openAppExperience();
+      else {
         showScreen("setupScreen");
-        updateSetupUI();
+        updateSetup();
       }
     }
 
@@ -1721,455 +1668,466 @@
       const email = document.getElementById("registerEmail").value.trim();
       const password = document.getElementById("registerPassword").value.trim();
 
-      if (!name || !email || !password) {
-        showMessage("authMessage", "Vui lòng nhập đầy đủ thông tin.");
-        return;
-      }
+      if (!name || !email || !password) return message("authMessage", "Vui lòng nhập đầy đủ thông tin.");
+      if (password.length < 6) return message("authMessage", "Mật khẩu tối thiểu 6 ký tự.");
+      if (users().some(u => u.email === email)) return message("authMessage", "Email này đã tồn tại.");
 
-      if (password.length < 6) {
-        showMessage("authMessage", "Mật khẩu cần tối thiểu 6 ký tự.");
-        return;
-      }
-
-      const users = getUsers();
-
-      if (users.some(u => u.email === email)) {
-        showMessage("authMessage", "Email này đã được đăng ký.");
-        return;
-      }
-
-      const newUser = {
+      const user = {
         name,
         email,
         password,
-        setupCompleted: false,
+        setupDone: false,
         disguise: "",
         secretCode: "",
         decoyCode: "",
         decoyContent: ""
       };
 
-      users.push(newUser);
-      saveUsers(users);
-      setSession(newUser);
-
-      showMessage("authMessage", "Đăng ký thành công. Chuyển sang thiết lập Hidder.", "success");
-
-      setTimeout(() => {
-        setupStep = 1;
-        showScreen("setupScreen");
-        updateSetupUI();
-      }, 700);
+      const data = users();
+      data.push(user);
+      saveUsers(data);
+      saveSession(user);
+      showScreen("setupScreen");
+      updateSetup();
     }
 
-    function selectDisguise(name, button) {
+    function selectDisguise(name, btn) {
       selectedDisguise = name;
+      document.querySelectorAll(".disguise").forEach(d => d.classList.remove("selected"));
+      btn.classList.add("selected");
+    }
 
-      document.querySelectorAll(".disguise-card").forEach(card => {
-        card.classList.remove("selected");
-      });
-
-      button.classList.add("selected");
+    function updateSetup() {
+      document.getElementById("stepText").textContent = `Bước ${step}/3`;
+      document.getElementById("p1").classList.toggle("active", step >= 1);
+      document.getElementById("p2").classList.toggle("active", step >= 2);
+      document.getElementById("p3").classList.toggle("active", step >= 3);
+      document.getElementById("setup1").classList.toggle("hidden", step !== 1);
+      document.getElementById("setup2").classList.toggle("hidden", step !== 2);
+      document.getElementById("setup3").classList.toggle("hidden", step !== 3);
       clearMessage("setupMessage");
     }
 
-    function updateSetupUI() {
-      document.getElementById("setupStepLabel").textContent = `Bước ${setupStep}/3`;
-
-      document.getElementById("progress1").classList.toggle("active", setupStep >= 1);
-      document.getElementById("progress2").classList.toggle("active", setupStep >= 2);
-      document.getElementById("progress3").classList.toggle("active", setupStep >= 3);
-
-      document.getElementById("setupStep1").classList.toggle("hidden", setupStep !== 1);
-      document.getElementById("setupStep2").classList.toggle("hidden", setupStep !== 2);
-      document.getElementById("setupStep3").classList.toggle("hidden", setupStep !== 3);
-
-      clearMessage("setupMessage");
-    }
-
-    function nextSetupStep() {
-      if (setupStep === 1) {
-        if (!selectedDisguise) {
-          showMessage("setupMessage", "Vui lòng chọn một lớp vỏ ngụy trang.");
-          return;
-        }
-
-        setupStep = 2;
-        updateSetupUI();
+    function nextStep() {
+      if (step === 1) {
+        if (!selectedDisguise) return message("setupMessage", "Vui lòng chọn một lớp vỏ ngụy trang.");
+        step = 2;
+        updateSetup();
         return;
       }
 
-      if (setupStep === 2) {
-        const secret = document.getElementById("secretCodeInput").value.trim();
-        const confirm = document.getElementById("secretCodeConfirm").value.trim();
-
-        if (!secret || !confirm) {
-          showMessage("setupMessage", "Vui lòng nhập và xác nhận mã bí mật.");
-          return;
-        }
-
-        if (secret !== confirm) {
-          showMessage("setupMessage", "Mã xác nhận không khớp.");
-          return;
-        }
-
-        if (secret.length < 4) {
-          showMessage("setupMessage", "Mã bí mật nên có tối thiểu 4 ký tự.");
-          return;
-        }
-
-        setupStep = 3;
-        updateSetupUI();
+      if (step === 2) {
+        const a = document.getElementById("secretCode").value.trim();
+        const b = document.getElementById("secretCode2").value.trim();
+        if (!a || !b) return message("setupMessage", "Vui lòng nhập và xác nhận mã thật.");
+        if (a !== b) return message("setupMessage", "Mã xác nhận không khớp.");
+        if (a.length < 4) return message("setupMessage", "Mã thật nên có tối thiểu 4 ký tự.");
+        step = 3;
+        updateSetup();
       }
     }
 
-    function prevSetupStep() {
-      if (setupStep > 1) {
-        setupStep--;
-        updateSetupUI();
+    function prevStep() {
+      if (step > 1) {
+        step--;
+        updateSetup();
       }
     }
 
     function finishSetup() {
-      const secret = document.getElementById("secretCodeInput").value.trim();
-      const decoy = document.getElementById("decoyCodeInput").value.trim();
-      const decoyContent = document.getElementById("decoyContentInput").value.trim();
+      const secret = document.getElementById("secretCode").value.trim();
+      const decoy = document.getElementById("decoyCode").value.trim();
+      const content = document.getElementById("decoyContent").value.trim();
 
-      if (!decoy) {
-        showMessage("setupMessage", "Vui lòng nhập mã giả hoặc bấm bỏ qua Decoy Vault.");
-        return;
-      }
-
-      if (decoy === secret) {
-        showMessage("setupMessage", "Mã giả không được trùng với mã thật.");
-        return;
-      }
+      if (!decoy) return message("setupMessage", "Nhập mã giả hoặc bấm bỏ qua Decoy Vault.");
+      if (decoy === secret) return message("setupMessage", "Mã giả không được trùng mã thật.");
 
       currentUser.disguise = selectedDisguise;
       currentUser.secretCode = secret;
       currentUser.decoyCode = decoy;
-      currentUser.decoyContent = decoyContent || "Ảnh phong cảnh, tài liệu học tập";
-      currentUser.setupCompleted = true;
-
-      updateUserInStorage(currentUser);
-      loadUserUI();
-      renderFakeApp();
-
-      showScreen("mainAppScreen");
+      currentUser.decoyContent = content || "Ảnh phong cảnh, tài liệu học tập";
+      currentUser.setupDone = true;
+      updateUser(currentUser);
+      openAppExperience();
     }
 
     function skipDecoy() {
-      const secret = document.getElementById("secretCodeInput").value.trim();
-
       currentUser.disguise = selectedDisguise;
-      currentUser.secretCode = secret;
+      currentUser.secretCode = document.getElementById("secretCode").value.trim();
       currentUser.decoyCode = "";
-      currentUser.decoyContent = "Chưa thiết lập Decoy Vault";
-      currentUser.setupCompleted = true;
+      currentUser.decoyContent = "Chưa bật Decoy Vault";
+      currentUser.setupDone = true;
+      updateUser(currentUser);
+      openAppExperience();
+    }
 
-      updateUserInStorage(currentUser);
+    function openAppExperience() {
+      showScreen("appScreen");
       loadUserUI();
-      renderFakeApp();
-
-      showScreen("mainAppScreen");
+      renderHome();
+      showPanel("overview", document.querySelector(".nav-chip"));
     }
 
     function loadUserUI() {
-      document.getElementById("sidebarName").textContent = currentUser.name || "User";
-      document.getElementById("sidebarEmail").textContent = currentUser.email;
-      document.getElementById("avatarText").textContent = (currentUser.name || "U").charAt(0).toUpperCase();
-
-      document.getElementById("fakeAppName").textContent = currentUser.disguise || "Calculator";
+      document.getElementById("sessionUser").textContent = currentUser.name || currentUser.email;
+      document.getElementById("overviewDisguise").textContent = currentUser.disguise || "Calculator";
+      document.getElementById("overviewDecoy").textContent = currentUser.decoyCode ? "On" : "Off";
       document.getElementById("settingDisguise").textContent = currentUser.disguise || "Calculator";
-      document.getElementById("settingSecretCode").textContent = currentUser.secretCode ? "Đã thiết lập" : "Chưa thiết lập";
-      document.getElementById("settingDecoyCode").textContent = currentUser.decoyCode ? "Đã thiết lập" : "Chưa thiết lập";
-      document.getElementById("decoyContentText").textContent = currentUser.decoyContent || "Ảnh phong cảnh, tài liệu học tập";
+      document.getElementById("settingDecoy").textContent = currentUser.decoyCode ? "Đã thiết lập" : "Chưa bật";
+      document.getElementById("decoyText").textContent = currentUser.decoyContent || "Ảnh phong cảnh, tài liệu học tập";
     }
 
-    function showAppPage(pageName, button) {
-      document.querySelectorAll(".nav-btn").forEach(btn => {
-        btn.classList.remove("active");
-      });
-
-      if (button) button.classList.add("active");
-
-      document.querySelectorAll(".app-page").forEach(page => {
-        page.classList.add("hidden");
-      });
-
-      const pageMap = {
-        dashboard: "pageDashboard",
-        fakeApp: "pageFakeApp",
-        photos: "pagePhotos",
-        files: "pageFiles",
-        notes: "pageNotes",
-        decoy: "pageDecoy",
-        premium: "pagePremium",
-        settings: "pageSettings"
+    function iconFor(app) {
+      const map = {
+        Calculator: ["＋", "calc-ico"],
+        Notes: ["☰", "note-ico"],
+        Weather: ["☁", "weather-ico"],
+        Files: ["▤", "files-ico"],
+        Clock: ["◷", "clock-ico"],
+        Gallery: ["◧", "gallery-ico"]
       };
-
-      document.getElementById(pageMap[pageName]).classList.remove("hidden");
-
-      if (pageName === "fakeApp") {
-        renderFakeApp();
-      }
+      return map[app] || map.Calculator;
     }
 
-    function showAppPageByName(pageName) {
-      const navButtons = Array.from(document.querySelectorAll(".nav-btn"));
-      const indexMap = {
-        dashboard: 0,
-        fakeApp: 1,
-        photos: 2,
-        files: 3,
-        notes: 4,
-        decoy: 5,
-        premium: 6,
-        settings: 7
-      };
-
-      showAppPage(pageName, navButtons[indexMap[pageName]]);
+    function appIcon(app, label=true) {
+      const [symbol, cls] = iconFor(app);
+      return `
+        <button class="home-app" onclick="${app === currentUser.disguise ? 'openSelectedFakeApp()' : `toast('${app} là app trang trí trong prototype')`}">
+          <div class="mini-app-icon ${cls}">${symbol}</div>
+          ${label ? `<span>${app}</span>` : ""}
+        </button>
+      `;
     }
 
-    function renderFakeApp() {
-      const type = currentUser?.disguise || "Calculator";
-      const screen = document.getElementById("fakePhoneScreen");
-      document.getElementById("fakeAppName").textContent = type;
-
-      if (type === "Calculator") {
-        screen.innerHTML = `
-          <div class="fake-title">Calculator</div>
-          <div class="calculator-display" id="calculatorDisplay">0</div>
-
-          <div class="calc-grid">
-            <button class="calc-btn" onclick="calcPress('AC')">AC</button>
-            <button class="calc-btn" onclick="calcPress('+/-')">+/-</button>
-            <button class="calc-btn" onclick="calcPress('%')">%</button>
-            <button class="calc-btn op" onclick="calcPress('÷')">÷</button>
-
-            <button class="calc-btn dark" onclick="calcPress('7')">7</button>
-            <button class="calc-btn dark" onclick="calcPress('8')">8</button>
-            <button class="calc-btn dark" onclick="calcPress('9')">9</button>
-            <button class="calc-btn op" onclick="calcPress('×')">×</button>
-
-            <button class="calc-btn dark" onclick="calcPress('4')">4</button>
-            <button class="calc-btn dark" onclick="calcPress('5')">5</button>
-            <button class="calc-btn dark" onclick="calcPress('6')">6</button>
-            <button class="calc-btn op" onclick="calcPress('-')">-</button>
-
-            <button class="calc-btn dark" onclick="calcPress('1')">1</button>
-            <button class="calc-btn dark" onclick="calcPress('2')">2</button>
-            <button class="calc-btn dark" onclick="calcPress('3')">3</button>
-            <button class="calc-btn op" onclick="calcPress('+')">+</button>
-
-            <button class="calc-btn dark zero" onclick="calcPress('0')">0</button>
-            <button class="calc-btn dark" onclick="calcPress('.')">.</button>
-            <button class="calc-btn op" onclick="calcPress('=')">=</button>
-          </div>
-        `;
-      }
-
-      if (type === "Notes") {
-        screen.innerHTML = `
-          <div class="fake-title">Notes</div>
-          <input class="notes-search" placeholder="Search notes" onkeydown="notesSearch(event)" />
-
-          <div class="fake-note-item">
-            <h4>Shopping list</h4>
-            <p>Milk, eggs, bread...</p>
+    function renderHome() {
+      document.getElementById("mainTitle").textContent = "Màn điện thoại giả";
+      document.getElementById("mainSub").textContent = "Người ngoài chỉ thấy các app bình thường. App ngụy trang là " + currentUser.disguise + ".";
+      const html = `
+        <div class="phone-status"><span>09:41</span><span>5G  ●</span></div>
+        <div class="phone-content home-bg">
+          <div class="home-date">
+            <h2>09:41</h2>
+            <p>Wednesday, June 10</p>
           </div>
 
-          <div class="fake-note-item">
-            <h4>Class reminder</h4>
-            <p>Submit assignment before Friday.</p>
+          <div class="app-grid">
+            ${appIcon(currentUser.disguise)}
+            ${appIcon("Notes")}
+            ${appIcon("Weather")}
+            ${appIcon("Files")}
+            ${appIcon("Clock")}
+            ${appIcon("Gallery")}
+            <button class="home-app" onclick="toast('Settings chỉ là app trang trí')"><div class="mini-app-icon clock-ico">⚙</div><span>Settings</span></button>
+            <button class="home-app" onclick="toast('Music chỉ là app trang trí')"><div class="mini-app-icon gallery-ico">♪</div><span>Music</span></button>
           </div>
 
-          <div class="fake-note-item">
-            <h4>Meeting note</h4>
-            <p>Project update at 9 AM.</p>
+          <div class="dock">
+            ${appIcon("Calculator", false)}
+            ${appIcon("Notes", false)}
+            ${appIcon("Weather", false)}
+            ${appIcon("Files", false)}
           </div>
-        `;
-      }
-
-      if (type === "Weather") {
-        screen.innerHTML = `
-          <div class="fake-title">Weather</div>
-
-          <div class="weather-temp" onmousedown="startWeatherHold()" onmouseup="cancelWeatherHold()" ontouchstart="startWeatherHold()" ontouchend="cancelWeatherHold()">
-            <h2>29°</h2>
-            <p>Ho Chi Minh City · Cloudy</p>
-          </div>
-
-          <div class="fake-weather-card">
-            <h4>Today</h4>
-            <p>29° / 25° · Light wind</p>
-          </div>
-
-          <div class="fake-weather-card">
-            <h4>Hourly Forecast</h4>
-            <p>10AM 29° · 11AM 30° · 12PM 31°</p>
-          </div>
-
-          <p style="font-size:12px;color:#8e8e93;text-align:center;margin-top:18px;">
-            Hold city area for 2 seconds in prototype.
-          </p>
-        `;
-      }
-
-      if (type === "Files") {
-        screen.innerHTML = `
-          <div class="fake-title">Files</div>
-          <input class="files-search" placeholder="Search files" onkeydown="filesSearch(event)" />
-
-          <div class="fake-file-item">
-            <h4>Downloads</h4>
-            <p>12 items</p>
-          </div>
-
-          <div class="fake-file-item">
-            <h4>Documents</h4>
-            <p>8 items</p>
-          </div>
-
-          <div class="fake-file-item">
-            <h4>School</h4>
-            <p>5 items</p>
-          </div>
-
-          <div class="fake-file-item">
-            <h4>Work</h4>
-            <p>9 items</p>
-          </div>
-        `;
-      }
+        </div>
+        <div class="bottom-home"></div>
+      `;
+      document.getElementById("phoneScreen").className = "phone-screen";
+      document.getElementById("phoneScreen").innerHTML = html;
     }
 
-    function calcPress(value) {
-      const display = document.getElementById("calculatorDisplay");
+    function openSelectedFakeApp() {
+      const app = currentUser.disguise || "Calculator";
+      document.getElementById("mainTitle").textContent = app + " giả";
+      document.getElementById("mainSub").textContent = "Tương tác như app thường. Nhập mã thật để vào Hidden Vault, mã giả để vào Decoy.";
+      if (app === "Calculator") renderCalculator();
+      if (app === "Notes") renderNotes();
+      if (app === "Weather") renderWeather();
+      if (app === "Files") renderFiles();
+    }
 
-      if (value === "AC") {
+    function phoneBase(content) {
+      document.getElementById("phoneScreen").className = "phone-screen fake-app-page";
+      document.getElementById("phoneScreen").innerHTML = `
+        <div class="phone-status"><span>09:41</span><span>5G  ●</span></div>
+        <div class="phone-content">${content}</div>
+        <div class="bottom-home"></div>
+      `;
+    }
+
+    function renderCalculator() {
+      calcInput = "";
+      phoneBase(`
+        <div class="fake-title">Calculator</div>
+        <div id="calcDisplay" class="calc-display">0</div>
+        <div class="calc-grid">
+          <button class="calc-btn" onclick="calcPress('AC')">AC</button>
+          <button class="calc-btn" onclick="calcPress('+/-')">+/-</button>
+          <button class="calc-btn" onclick="calcPress('%')">%</button>
+          <button class="calc-btn op" onclick="calcPress('÷')">÷</button>
+          <button class="calc-btn dark" onclick="calcPress('7')">7</button>
+          <button class="calc-btn dark" onclick="calcPress('8')">8</button>
+          <button class="calc-btn dark" onclick="calcPress('9')">9</button>
+          <button class="calc-btn op" onclick="calcPress('×')">×</button>
+          <button class="calc-btn dark" onclick="calcPress('4')">4</button>
+          <button class="calc-btn dark" onclick="calcPress('5')">5</button>
+          <button class="calc-btn dark" onclick="calcPress('6')">6</button>
+          <button class="calc-btn op" onclick="calcPress('-')">-</button>
+          <button class="calc-btn dark" onclick="calcPress('1')">1</button>
+          <button class="calc-btn dark" onclick="calcPress('2')">2</button>
+          <button class="calc-btn dark" onclick="calcPress('3')">3</button>
+          <button class="calc-btn op" onclick="calcPress('+')">+</button>
+          <button class="calc-btn dark zero" onclick="calcPress('0')">0</button>
+          <button class="calc-btn dark" onclick="calcPress('.')">.</button>
+          <button class="calc-btn op" onclick="calcPress('=')">=</button>
+        </div>
+      `);
+    }
+
+    function calcPress(v) {
+      const d = document.getElementById("calcDisplay");
+      if (!d) return;
+
+      if (v === "AC") {
         calcInput = "";
-        display.textContent = "0";
+        d.textContent = "0";
         return;
       }
 
-      if (value === "=") {
+      if (v === "+/-" || v === "%") return;
+
+      if (v === "=") {
         calcInput += "=";
-
-        if (calcInput === currentUser.secretCode) {
-          openVault();
-          calcInput = "";
-          return;
-        }
-
-        if (currentUser.decoyCode && calcInput === currentUser.decoyCode) {
-          openDecoyVault();
-          calcInput = "";
-          return;
-        }
+        if (calcInput === currentUser.secretCode) return unlockVault();
+        if (currentUser.decoyCode && calcInput === currentUser.decoyCode) return unlockDecoy();
 
         try {
-          const expression = calcInput
-            .replace("=", "")
-            .replace(/×/g, "*")
-            .replace(/÷/g, "/");
-
-          const result = Function(`"use strict"; return (${expression})`)();
-
-          if (Number.isFinite(result)) {
-            display.textContent = String(result).slice(0, 10);
-          } else {
-            display.textContent = "Error";
-          }
+          const exp = calcInput.replace("=", "").replaceAll("×","*").replaceAll("÷","/");
+          const result = Function('"use strict";return (' + exp + ')')();
+          d.textContent = Number.isFinite(result) ? String(result).slice(0,10) : "Error";
         } catch {
-          display.textContent = "Error";
+          d.textContent = "Error";
         }
-
         calcInput = "";
         return;
       }
 
-      if (value === "+/-" || value === "%") {
-        return;
-      }
-
-      calcInput += value;
-      display.textContent = calcInput.slice(-10);
+      calcInput += v;
+      d.textContent = calcInput.slice(-10);
     }
 
-    function notesSearch(event) {
-      if (event.key === "Enter") {
-        const value = event.target.value.trim();
-
-        if (value === currentUser.secretCode) {
-          openVault();
-        }
-
-        if (currentUser.decoyCode && value === currentUser.decoyCode) {
-          openDecoyVault();
-        }
-      }
+    function renderNotes() {
+      phoneBase(`
+        <div class="fake-title">Notes</div>
+        <input class="ios-search" placeholder="Search notes" onkeydown="fakeSearch(event)" />
+        <div class="ios-card"><h4>Shopping list</h4><p>Milk, eggs, bread, coffee...</p></div>
+        <div class="ios-card"><h4>Class reminder</h4><p>Submit project report before Friday.</p></div>
+        <div class="ios-card"><h4>Meeting note</h4><p>Discuss UI flow and premium pricing.</p></div>
+      `);
     }
 
-    function filesSearch(event) {
-      if (event.key === "Enter") {
-        const value = event.target.value.trim();
-
-        if (value === currentUser.secretCode) {
-          openVault();
-        }
-
-        if (currentUser.decoyCode && value === currentUser.decoyCode) {
-          openDecoyVault();
-        }
-      }
+    function renderFiles() {
+      phoneBase(`
+        <div class="fake-title">Files</div>
+        <input class="ios-search" placeholder="Search files" onkeydown="fakeSearch(event)" />
+        <div class="ios-card"><h4>Downloads</h4><p>12 items</p></div>
+        <div class="ios-card"><h4>Documents</h4><p>8 items</p></div>
+        <div class="ios-card"><h4>School</h4><p>5 items</p></div>
+        <div class="ios-card"><h4>Work</h4><p>9 items</p></div>
+      `);
     }
 
-    let weatherHoldTimer = null;
-
-    function startWeatherHold() {
-      weatherHoldTimer = setTimeout(() => {
-        openVault();
-      }, 2000);
+    function renderWeather() {
+      phoneBase(`
+        <div class="fake-title">Weather</div>
+        <div class="weather" onmousedown="startHold()" onmouseup="stopHold()" ontouchstart="startHold()" ontouchend="stopHold()">
+          <h2>29°</h2>
+          <p>Ho Chi Minh City · Cloudy</p>
+        </div>
+        <div class="ios-card"><h4>Today</h4><p>29° / 25° · Light wind</p></div>
+        <div class="ios-card"><h4>Hourly Forecast</h4><p>10AM 29° · 11AM 30° · 12PM 31°</p></div>
+        <p style="font-size:12px;color:#777E8C;text-align:center;margin-top:16px;">Nhấn giữ khu vực nhiệt độ 2 giây để mở Vault.</p>
+      `);
     }
 
-    function cancelWeatherHold() {
-      clearTimeout(weatherHoldTimer);
+    function fakeSearch(e) {
+      if (e.key !== "Enter") return;
+      const v = e.target.value.trim();
+      if (v === currentUser.secretCode) unlockVault();
+      else if (currentUser.decoyCode && v === currentUser.decoyCode) unlockDecoy();
+      else toast("Không tìm thấy kết quả");
     }
 
-    function openVault() {
-      showScreen("mainAppScreen");
-      showAppPageByName("dashboard");
+    function startHold() {
+      holdTimer = setTimeout(unlockVault, 2000);
     }
 
-    function openDecoyVault() {
-      showScreen("mainAppScreen");
-      showAppPageByName("decoy");
+    function stopHold() {
+      clearTimeout(holdTimer);
+    }
+
+    function unlockVault() {
+      calcInput = "";
+      toast("Đã mở Hidden Vault");
+      showPanel("vault", document.querySelectorAll(".nav-chip")[1]);
+      renderVaultPhone(false);
+    }
+
+    function unlockDecoy() {
+      calcInput = "";
+      toast("Đã mở Vault");
+      showPanel("decoy", document.querySelectorAll(".nav-chip")[2]);
+      renderVaultPhone(true);
+    }
+
+    function renderVaultPhone(isDecoy) {
+      document.getElementById("mainTitle").textContent = isDecoy ? "Vault giả" : "Hidden Vault";
+      document.getElementById("mainSub").textContent = isDecoy ? "Giao diện giống Vault thật nhưng dữ liệu vô hại." : "Không gian thật chứa dữ liệu riêng tư.";
+      document.getElementById("phoneScreen").className = "phone-screen";
+      document.getElementById("phoneScreen").innerHTML = `
+        <div class="phone-status" style="color:white;"><span>09:41</span><span>5G  ●</span></div>
+        <div class="phone-content" style="background:#080A0F;color:white;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+            <div>
+              <h2 style="font-size:24px;letter-spacing:-.5px;">${isDecoy ? "Private Space" : "Hidden Vault"}</h2>
+              <p style="color:#8D98AA;font-size:12px;margin-top:4px;">${isDecoy ? "Normal files" : "Protected files"}</p>
+            </div>
+            <button onclick="quickEscape()" style="width:42px;height:42px;border-radius:15px;background:rgba(255,255,255,.08);color:white;">◉</button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;">
+            <div class="stat"><i>◧</i><strong>${isDecoy ? "32" : "248"}</strong><span>Photos</span></div>
+            <div class="stat"><i>▤</i><strong>${isDecoy ? "8" : "37"}</strong><span>Files</span></div>
+            <div class="stat"><i>☰</i><strong>${isDecoy ? "5" : "18"}</strong><span>Notes</span></div>
+            <div class="stat"><i>✦</i><strong>${isDecoy ? "0" : "12"}</strong><span>Accounts</span></div>
+          </div>
+
+          <div class="photo-grid" style="grid-template-columns:repeat(3,1fr);">
+            <div class="photo"></div><div class="photo"></div><div class="photo"></div>
+            <div class="photo"></div><div class="photo"></div><div class="photo"></div>
+          </div>
+        </div>
+        <div class="bottom-home" style="color:white;"></div>
+      `;
     }
 
     function quickEscape() {
-      showAppPageByName("fakeApp");
-      renderFakeApp();
+      toast("Quick Escape: đã quay về màn điện thoại giả");
+      renderHome();
+      showPanel("overview", document.querySelectorAll(".nav-chip")[0]);
     }
 
-    function openAddMenu() {
-      alert("Prototype: mở menu thêm ảnh/video, file, note, password, folder.");
+    function showPanel(name, btn) {
+      document.querySelectorAll(".nav-chip").forEach(b => b.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+
+      const map = {
+        overview: "panelOverview",
+        vault: "panelVault",
+        decoy: "panelDecoy",
+        settings: "panelSettings",
+        premium: "panelPremium"
+      };
+
+      document.querySelectorAll(".panel").forEach(p => p.classList.add("hidden"));
+      document.getElementById(map[name]).classList.remove("hidden");
+    }
+
+
+    function selectPlan(plan) {
+      const plans = {
+        monthly: {
+          title: "Gói 1 tháng",
+          desc: "Phù hợp nếu người dùng muốn thử Hidder Pro trong thời gian ngắn mà không cần cam kết dài hạn.",
+          price: "$0.99",
+          perMonth: "$0.99 / tháng",
+          storage: "Có",
+          disguise: "3 app",
+          backup: "Cơ bản",
+          decoy: "1 Vault",
+          alert: "Cơ bản",
+          escape: "Nút nhanh",
+          cta: "Chọn gói 1 tháng",
+          toast: "Prototype: chọn gói 1 tháng $0.99"
+        },
+        quarter: {
+          title: "Gói 3 tháng",
+          desc: "Phù hợp với người dùng đã thấy giá trị của app và muốn duy trì bảo vệ riêng tư ổn định hơn.",
+          price: "$2.99",
+          perMonth: "≈ $1.00 / tháng",
+          storage: "Có",
+          disguise: "5 app",
+          backup: "Nâng cao",
+          decoy: "2 Vault",
+          alert: "Chi tiết hơn",
+          escape: "Nút + úp máy",
+          cta: "Chọn gói 3 tháng",
+          toast: "Prototype: chọn gói 3 tháng $2.99"
+        },
+        half: {
+          title: "Gói 6 tháng",
+          desc: "Gói nên được nhấn mạnh là Best Value vì mở đầy đủ tính năng Pro và phù hợp với người dùng lâu dài.",
+          price: "$5.99",
+          perMonth: "≈ $1.00 / tháng",
+          storage: "Có",
+          disguise: "Tất cả app",
+          backup: "Đầy đủ",
+          decoy: "Không giới hạn",
+          alert: "Đầy đủ",
+          escape: "Nút + úp máy + lắc máy",
+          cta: "Chọn gói 6 tháng",
+          toast: "Prototype: chọn gói 6 tháng $5.99"
+        }
+      };
+
+      const data = plans[plan];
+
+      document.querySelectorAll(".plan-option").forEach(el => el.classList.remove("active"));
+      const activeMap = {
+        monthly: "planMonthly",
+        quarter: "planQuarter",
+        half: "planHalf"
+      };
+      document.getElementById(activeMap[plan]).classList.add("active");
+
+      document.getElementById("planTitle").textContent = data.title;
+      document.getElementById("planDesc").textContent = data.desc;
+      document.getElementById("planPrice").textContent = data.price;
+      document.getElementById("planPerMonth").textContent = data.perMonth;
+
+      document.getElementById("fStorage").textContent = data.storage;
+      document.getElementById("fDisguise").textContent = data.disguise;
+      document.getElementById("fBackup").textContent = data.backup;
+      document.getElementById("fDecoy").textContent = data.decoy;
+      document.getElementById("fAlert").textContent = data.alert;
+      document.getElementById("fEscape").textContent = data.escape;
+
+      const cta = document.getElementById("planCTA");
+      cta.textContent = data.cta;
+      cta.onclick = () => toast(data.toast);
     }
 
     function resetSetup() {
-      selectedDisguise = currentUser.disguise || "";
-      setupStep = 1;
-      currentUser.setupCompleted = false;
-      updateUserInStorage(currentUser);
+      currentUser.setupDone = false;
+      currentUser.disguise = "";
+      updateUser(currentUser);
+      step = 1;
+      selectedDisguise = "";
+      document.querySelectorAll(".disguise").forEach(d => d.classList.remove("selected"));
       showScreen("setupScreen");
-      updateSetupUI();
+      updateSetup();
     }
 
     function logout() {
-      localStorage.removeItem("hidderSession");
+      localStorage.removeItem("hidderSessionV2");
       currentUser = null;
       showScreen("authScreen");
       switchAuth("login");
+    }
+
+    function toast(text) {
+      const el = document.getElementById("toast");
+      el.textContent = text;
+      el.classList.add("show");
+      setTimeout(() => el.classList.remove("show"), 1800);
     }
   </script>
 </body>
