@@ -1475,53 +1475,53 @@
 
             <div id="panelPremium" class="panel hidden">
               <div class="section-title" style="margin-top:0;">
-                <h3>Chọn gói Hidder Stealth Pro</h3>
-                <span>Bấm từng gói để xem khác biệt</span>
+                <h3>Chọn gói dung lượng Hidder Stealth Pro</h3>
+                <span>Bấm từng gói để xem dung lượng và giá</span>
               </div>
 
               <div class="plan-toggle">
                 <button id="planMonthly" class="plan-option active" onclick="selectPlan('monthly')">
-                  <h3>1 tháng</h3>
-                  <strong>$0.99</strong>
-                  <p>Linh hoạt, phù hợp để thử nhanh.</p>
+                  <h3>500 MB</h3>
+                  <strong>$0.50</strong>
+                  <p>Gói nhỏ, phù hợp để thử nhanh.</p>
                 </button>
 
                 <button id="planQuarter" class="plan-option" onclick="selectPlan('quarter')">
-                  <h3>3 tháng</h3>
-                  <strong>$2.99</strong>
-                  <p>Dùng dài hơn, không phải gia hạn mỗi tháng.</p>
+                  <h3>1.5 GB</h3>
+                  <strong>$1.25</strong>
+                  <p>Dung lượng vừa, phù hợp dùng hằng ngày.</p>
                 </button>
 
                 <button id="planHalf" class="plan-option" onclick="selectPlan('half')">
                   <span class="best-label">Best</span>
-                  <h3>6 tháng</h3>
-                  <strong>$5.99</strong>
-                  <p>Gói dài hạn, mở toàn bộ tính năng Pro.</p>
+                  <h3>5 GB</h3>
+                  <strong>$2.00</strong>
+                  <p>Dung lượng lớn, phù hợp lưu nhiều dữ liệu hơn.</p>
                 </button>
               </div>
 
               <div class="plan-detail">
                 <div class="plan-detail-top">
                   <div>
-                    <h3 id="planTitle">Gói 1 tháng</h3>
-                    <p id="planDesc">Phù hợp nếu người dùng muốn thử Hidder Pro trong thời gian ngắn mà không cần cam kết dài hạn.</p>
+                    <h3 id="planTitle">Gói 500 MB</h3>
+                    <p id="planDesc">Phù hợp nếu người dùng muốn thử Hidder Pro với dung lượng nhỏ.</p>
                   </div>
 
                   <div class="plan-price">
-                    <strong id="planPrice">$0.99</strong>
-                    <span id="planPerMonth">$0.99 / tháng</span>
+                    <strong id="planPrice">$0.50</strong>
+                    <span id="planPerMonth">500 MB</span>
                   </div>
                 </div>
 
                 <div class="compare-table">
                   <div class="compare-row">
-                    <span>Không giới hạn dung lượng cục bộ</span>
-                    <span id="fStorage">Có</span>
+                    <span>Dung lượng lưu trữ</span>
+                    <span id="fStorage">500 MB</span>
                   </div>
 
                   <div class="compare-row">
-                    <span>Số lớp vỏ ngụy trang được mở</span>
-                    <span id="fDisguise">3 app</span>
+                    <span>Giá gói</span>
+                    <span id="fDisguise">$0.50</span>
                   </div>
 
                   <div class="compare-row">
@@ -1546,10 +1546,10 @@
                 </div>
               </div>
 
-              <button id="planCTA" class="btn" onclick="toast('Prototype: chọn gói 1 tháng $0.99')">Chọn gói 1 tháng</button>
+              <button id="planCTA" class="btn" onclick="toast('Prototype: chọn gói 500 MB $0.50')">Chọn gói 500 MB</button>
 
               <p class="premium-note">
-                Không hiển thị popup ép mua. Premium chỉ xuất hiện trong Settings hoặc khi người dùng chạm giới hạn miễn phí.
+                Không hiển thị popup ép mua. Premium chỉ xuất hiện trong Settings hoặc khi người dùng cần nâng dung lượng lưu trữ.
                 Hidder không bán dữ liệu cá nhân và không có quảng cáo trong app.
               </p>
             </div>
@@ -2035,46 +2035,46 @@
     function selectPlan(plan) {
       const plans = {
         monthly: {
-          title: "Gói 1 tháng",
-          desc: "Phù hợp nếu người dùng muốn thử Hidder Pro trong thời gian ngắn mà không cần cam kết dài hạn.",
-          price: "$0.99",
-          perMonth: "$0.99 / tháng",
-          storage: "Có",
-          disguise: "3 app",
+          title: "Gói 500 MB",
+          desc: "Phù hợp nếu người dùng muốn thử Hidder Pro với dung lượng nhỏ.",
+          price: "$0.50",
+          perMonth: "500 MB",
+          storage: "500 MB",
+          disguise: "$0.50",
           backup: "Cơ bản",
           decoy: "1 Vault",
           alert: "Cơ bản",
           escape: "Nút nhanh",
-          cta: "Chọn gói 1 tháng",
-          toast: "Prototype: chọn gói 1 tháng $0.99"
+          cta: "Chọn gói 500 MB",
+          toast: "Prototype: chọn gói 500 MB $0.50"
         },
         quarter: {
-          title: "Gói 3 tháng",
-          desc: "Phù hợp với người dùng đã thấy giá trị của app và muốn duy trì bảo vệ riêng tư ổn định hơn.",
-          price: "$2.99",
-          perMonth: "≈ $1.00 / tháng",
-          storage: "Có",
-          disguise: "5 app",
+          title: "Gói 1.5 GB",
+          desc: "Phù hợp với người dùng cần thêm dung lượng để lưu ảnh, file và ghi chú riêng tư.",
+          price: "$1.25",
+          perMonth: "1.5 GB",
+          storage: "1.5 GB",
+          disguise: "$1.25",
           backup: "Nâng cao",
           decoy: "2 Vault",
           alert: "Chi tiết hơn",
           escape: "Nút + úp máy",
-          cta: "Chọn gói 3 tháng",
-          toast: "Prototype: chọn gói 3 tháng $2.99"
+          cta: "Chọn gói 1.5 GB",
+          toast: "Prototype: chọn gói 1.5 GB $1.25"
         },
         half: {
-          title: "Gói 6 tháng",
-          desc: "Gói nên được nhấn mạnh là Best Value vì mở đầy đủ tính năng Pro và phù hợp với người dùng lâu dài.",
-          price: "$5.99",
-          perMonth: "≈ $1.00 / tháng",
-          storage: "Có",
-          disguise: "Tất cả app",
+          title: "Gói 5 GB",
+          desc: "Gói dung lượng lớn, phù hợp với người dùng lưu nhiều dữ liệu riêng tư trong Hidder.",
+          price: "$2.00",
+          perMonth: "5 GB",
+          storage: "5 GB",
+          disguise: "$2.00",
           backup: "Đầy đủ",
           decoy: "Không giới hạn",
           alert: "Đầy đủ",
           escape: "Nút + úp máy + lắc máy",
-          cta: "Chọn gói 6 tháng",
-          toast: "Prototype: chọn gói 6 tháng $5.99"
+          cta: "Chọn gói 5 GB",
+          toast: "Prototype: chọn gói 5 GB $2.00"
         }
       };
 
