@@ -1200,10 +1200,6 @@
       renderPhone(`
         <div class="view app-view">
           ${topBarInApp(title, 'Calculator')}
-          <div class="help-box" style="margin-top:0;">
-            <h4>Hướng dẫn</h4>
-            <p>Nhập <b>mật khẩu thật</b> rồi bấm dấu <b>=</b> để mở Hidden Vault. Nhập <b>mật khẩu giả</b> rồi bấm <b>=</b> để mở Vault giả.</p>
-          </div>
           <div id="calcDisplay" class="calc-display">0</div>
           <div class="calc-grid">
             <button class="calc-btn" onclick="calcPress('AC')">AC</button>
@@ -1262,10 +1258,6 @@
       renderPhone(`
         <div class="view app-view">
           ${topBarInApp(title, 'Notes')}
-          <div class="help-box" style="margin-top:0;">
-            <h4>Hướng dẫn</h4>
-            <p>Nhập <b>mật khẩu thật</b> hoặc <b>mật khẩu giả</b> vào ô tìm kiếm rồi nhấn <b>Enter</b>.</p>
-          </div>
           <input class="search" placeholder="Search notes" onkeydown="searchUnlock(event)" />
           <div class="ios-card"><h4>Shopping list</h4><p>Milk, eggs, bread, coffee...</p></div>
           <div class="ios-card"><h4>Class reminder</h4><p>Submit project report before Friday.</p></div>
@@ -1280,10 +1272,6 @@
       renderPhone(`
         <div class="view app-view">
           ${topBarInApp(title, 'Calendar')}
-          <div class="help-box" style="margin-top:0;">
-            <h4>Hướng dẫn</h4>
-            <p>Nhập <b>mật khẩu thật</b> hoặc <b>mật khẩu giả</b> vào ô tìm kiếm lịch rồi nhấn <b>Enter</b>.</p>
-          </div>
           <input class="search" placeholder="Search calendar" onkeydown="searchUnlock(event)" />
           <div class="ios-card"><h4>Today</h4><p>Team meeting · 9:00 AM</p></div>
           <div class="ios-card"><h4>Tomorrow</h4><p>Project deadline · 11:59 PM</p></div>
@@ -1297,10 +1285,6 @@
       renderPhone(`
         <div class="view app-view">
           ${topBarInApp(title, 'Files')}
-          <div class="help-box" style="margin-top:0;">
-            <h4>Hướng dẫn</h4>
-            <p>Gõ <b>mật khẩu thật</b> hoặc <b>mật khẩu giả</b> vào thanh tìm kiếm rồi nhấn <b>Enter</b>.</p>
-          </div>
           <input class="search" placeholder="Search files" onkeydown="searchUnlock(event)" />
           <div class="ios-card"><h4>Downloads</h4><p>12 items</p></div>
           <div class="ios-card"><h4>Documents</h4><p>8 items</p></div>
@@ -1315,10 +1299,6 @@
       renderPhone(`
         <div class="view app-view">
           ${topBarInApp(title, 'Weather')}
-          <div class="help-box" style="margin-top:0;">
-            <h4>Hướng dẫn</h4>
-            <p>Nhấn giữ khu vực nhiệt độ khoảng <b>2 giây</b> để mở Hidden Vault. Với demo này, giữ lâu sẽ mở Vault thật.</p>
-          </div>
           <div class="weather-box" onmousedown="startHold()" onmouseup="stopHold()" ontouchstart="startHold()" ontouchend="stopHold()">
             <h2>29°</h2>
             <p>Ho Chi Minh City · Cloudy</p>
@@ -1474,7 +1454,7 @@
           <div class="vault-top">
             <div>
               <h2>Đổi giao diện</h2>
-              <p>Chọn app bên ngoài để ngụy trang Hidden Vault.</p>
+              <p>Chọn app bên ngoài để ngụy trang Hidden Vault. Phần hướng dẫn mở Vault chỉ hiển thị tại bước thiết lập/đổi giao diện.</p>
             </div>
             <button class="mini-btn" onclick="renderAppSettings()">‹</button>
           </div>
@@ -1527,8 +1507,8 @@
       currentUser.displayName = label;
       currentUser.setupDone = true;
       updateUser(currentUser);
+      renderAppSettings();
       toast('Đã đổi giao diện app');
-      renderHomeScreen();
     }
 
     function renderChangePassword() {
