@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hidder UX/UI Prototype</title>
+  <title>Hidder UX/UI Demo</title>
   <style>
     :root {
       --bg: #080A0F;
@@ -1034,6 +1034,242 @@
       margin-top: 10px;
     }
 
+
+
+    /* Smooth phone-like UX upgrades */
+    html { scroll-behavior: smooth; }
+    * { -webkit-tap-highlight-color: transparent; }
+    body { -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+
+    .phone {
+      transform: translateZ(0);
+      isolation: isolate;
+    }
+
+    .phone::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 46px;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.18), transparent 25%, transparent 72%, rgba(255,255,255,.08));
+      z-index: 4;
+      opacity: .55;
+    }
+
+    .phone-screen {
+      transform: translateZ(0);
+      will-change: transform, opacity;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+
+    .phone-screen::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 86px;
+      height: 25px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.88);
+      box-shadow: 0 8px 22px rgba(0,0,0,.25);
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .phone-content {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      animation: phoneContentIn .34s cubic-bezier(.2,.8,.2,1);
+      will-change: opacity, transform;
+    }
+    .phone-content::-webkit-scrollbar { display: none; }
+
+    @keyframes phoneContentIn {
+      from { opacity: 0; transform: scale(.985) translateY(10px); filter: blur(6px); }
+      to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+    }
+
+    .phone-status {
+      padding-top: 1px;
+      font-size: 12px;
+      letter-spacing: -.15px;
+      text-shadow: 0 1px 12px rgba(0,0,0,.25);
+      pointer-events: none;
+    }
+
+    .status-icons {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+    .battery {
+      width: 22px;
+      height: 10px;
+      border: 1.7px solid currentColor;
+      border-radius: 3px;
+      position: relative;
+      display: inline-block;
+      opacity: .94;
+    }
+    .battery::before {
+      content: "";
+      position: absolute;
+      right: -4px;
+      top: 2px;
+      width: 2px;
+      height: 4px;
+      border-radius: 0 2px 2px 0;
+      background: currentColor;
+    }
+    .battery::after {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      width: 14px;
+      height: 4px;
+      border-radius: 2px;
+      background: currentColor;
+    }
+
+    .home-bg {
+      background:
+        radial-gradient(circle at 18% 12%, rgba(0,209,255,.42), transparent 24%),
+        radial-gradient(circle at 92% 16%, rgba(139,92,246,.48), transparent 25%),
+        radial-gradient(circle at 50% 95%, rgba(41,211,145,.22), transparent 26%),
+        linear-gradient(160deg,#1A2140 0%,#07111D 52%,#05070B 100%);
+      position: relative;
+    }
+    .home-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: .10;
+      pointer-events: none;
+    }
+
+    .home-date {
+      text-shadow: 0 10px 32px rgba(0,0,0,.35);
+      position: relative;
+      z-index: 1;
+      margin-bottom: 18px;
+    }
+    .home-date h2 { font-size: 52px; }
+
+    .ios-widget {
+      position: relative;
+      z-index: 1;
+      margin: 0 3px 18px;
+      padding: 13px 14px;
+      border-radius: 24px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(18px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 12px 36px rgba(0,0,0,.18);
+    }
+    .ios-widget h4 { font-size: 13px; margin-bottom: 3px; }
+    .ios-widget p { font-size: 11px; opacity: .72; }
+    .widget-status {
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #BFFFE1;
+      background: rgba(41,211,145,.15);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .app-grid {
+      position: relative;
+      z-index: 1;
+      gap: 17px 12px;
+    }
+
+    .home-app {
+      transition: transform .16s cubic-bezier(.2,.8,.2,1), filter .16s ease;
+      user-select: none;
+    }
+    .home-app:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .home-app:active { transform: scale(.88); }
+
+    .home-app .mini-app-icon {
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), 0 14px 26px rgba(0,0,0,.24);
+    }
+
+    .dock {
+      z-index: 2;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.20);
+      box-shadow: 0 18px 45px rgba(0,0,0,.24);
+    }
+
+    .bottom-home {
+      z-index: 7;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+    .bottom-home:hover { transform: translateX(-50%) scaleX(1.08); opacity: .85; }
+
+    .calc-btn, .ios-card, .btn, .nav-chip, .disguise, .plan-option, .item {
+      will-change: transform;
+    }
+    .calc-btn, .nav-chip, .btn.secondary.small {
+      transition: transform .12s ease, filter .16s ease, background .16s ease;
+    }
+    .calc-btn:active, .nav-chip:active, .btn.secondary.small:active {
+      transform: scale(.93);
+      filter: brightness(.96);
+    }
+
+    .fake-app-page .phone-content {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(244,246,250,.98));
+    }
+
+    .ios-card {
+      box-shadow: 0 8px 18px rgba(20,25,40,.06);
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+    .ios-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(20,25,40,.10);
+    }
+
+    .toast.show {
+      animation: toastPop .22s cubic-bezier(.2,.8,.2,1);
+    }
+    @keyframes toastPop {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px) scale(.96); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+    }
+
+    .vault-shell {
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(0,209,255,.18), transparent 35%),
+        radial-gradient(circle at 100% 100%, rgba(139,92,246,.22), transparent 34%),
+        #080A0F;
+    }
+
+    .vault-card {
+      background: rgba(255,255,255,.075);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(16px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+
     @media (max-width: 1050px) {
       .app {
         grid-template-columns: 1fr;
@@ -1085,7 +1321,7 @@
       <div class="hero">
         <h2>Ẩn dữ liệu trong một app bình thường.</h2>
         <p>
-          Prototype này mô phỏng đúng trải nghiệm: đăng nhập, thiết lập lớp vỏ,
+          Demo này mô phỏng trải nghiệm chính: đăng nhập, thiết lập lớp vỏ,
           vào màn điện thoại giả, mở app ngụy trang, nhập mã thật để vào Vault
           hoặc mã giả để vào Decoy Vault.
         </p>
@@ -1167,7 +1403,7 @@
             </div>
 
             <button class="btn" onclick="register()">Tạo tài khoản</button>
-            <p class="hint">Prototype lưu user bằng localStorage để test UX nhanh.</p>
+            <p class="hint">Tạo tài khoản để bắt đầu thiết lập không gian riêng tư.</p>
           </div>
 
           <div id="authMessage" class="message"></div>
@@ -1404,7 +1640,7 @@
                 <div class="photo"></div><div class="photo"></div><div class="photo"></div><div class="photo"></div>
               </div>
 
-              <button class="btn" style="margin-top:16px;" onclick="toast('Prototype: mở bottom sheet thêm Photos, Files, Notes, Passwords')">+ Add to Vault</button>
+              <button class="btn" style="margin-top:16px;" onclick="toast('Tính năng thêm dữ liệu sẽ được mở trong bản ứng dụng')">+ Add to Vault</button>
             </div>
 
             <div id="panelDecoy" class="panel hidden">
@@ -1546,7 +1782,7 @@
                 </div>
               </div>
 
-              <button id="planCTA" class="btn" onclick="toast('Prototype: chọn gói 500 MB $0.50')">Chọn gói 500 MB</button>
+              <button id="planCTA" class="btn" onclick="toast('Đã chọn gói 500 MB $0.50')">Chọn gói 500 MB</button>
 
               <p class="premium-note">
                 Không hiển thị popup ép mua. Premium chỉ xuất hiện trong Settings hoặc khi người dùng cần nâng dung lượng lưu trữ.
@@ -1791,11 +2027,31 @@
 
     function appIcon(app, label=true) {
       const [symbol, cls] = iconFor(app);
+      const action = app === currentUser.disguise ? 'openSelectedFakeApp()' : `toast('${app} hiện là app hiển thị trên màn hình giả')`;
       return `
-        <button class="home-app" onclick="${app === currentUser.disguise ? 'openSelectedFakeApp()' : `toast('${app} là app trang trí trong prototype')`}">
+        <button class="home-app" onclick="${action}" aria-label="${app}">
           <div class="mini-app-icon ${cls}">${symbol}</div>
           ${label ? `<span>${app}</span>` : ""}
         </button>
+      `;
+    }
+
+    function timeNow() {
+      const now = new Date();
+      return now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function dateNow() {
+      const now = new Date();
+      return now.toLocaleDateString('vi-VN', { weekday: 'long', day: '2-digit', month: 'long' });
+    }
+
+    function statusBar(color='') {
+      return `
+        <div class="phone-status" ${color ? `style="color:${color};"` : ''}>
+          <span>${timeNow()}</span>
+          <span class="status-icons">5G <span>▰▰▰</span><span class="battery"></span></span>
+        </div>
       `;
     }
 
@@ -1803,11 +2059,19 @@
       document.getElementById("mainTitle").textContent = "Màn điện thoại giả";
       document.getElementById("mainSub").textContent = "Người ngoài chỉ thấy các app bình thường. App ngụy trang là " + currentUser.disguise + ".";
       const html = `
-        <div class="phone-status"><span>09:41</span><span>5G  ●</span></div>
+        ${statusBar('white')}
         <div class="phone-content home-bg">
           <div class="home-date">
-            <h2>09:41</h2>
-            <p>Wednesday, June 10</p>
+            <h2>${timeNow()}</h2>
+            <p>${dateNow()}</p>
+          </div>
+
+          <div class="ios-widget">
+            <div>
+              <h4>Hidder Stealth Mode</h4>
+              <p>${currentUser.disguise || 'Calculator'} đang hoạt động như app thường</p>
+            </div>
+            <span class="widget-status">SAFE</span>
           </div>
 
           <div class="app-grid">
@@ -1817,8 +2081,8 @@
             ${appIcon("Files")}
             ${appIcon("Clock")}
             ${appIcon("Gallery")}
-            <button class="home-app" onclick="toast('Settings chỉ là app trang trí')"><div class="mini-app-icon clock-ico">⚙</div><span>Settings</span></button>
-            <button class="home-app" onclick="toast('Music chỉ là app trang trí')"><div class="mini-app-icon gallery-ico">♪</div><span>Music</span></button>
+            <button class="home-app" onclick="toast('Settings hiện là app hiển thị trên màn hình giả')"><div class="mini-app-icon clock-ico">⚙</div><span>Settings</span></button>
+            <button class="home-app" onclick="toast('Music hiện là app hiển thị trên màn hình giả')"><div class="mini-app-icon gallery-ico">♪</div><span>Music</span></button>
           </div>
 
           <div class="dock">
@@ -1847,7 +2111,7 @@
     function phoneBase(content) {
       document.getElementById("phoneScreen").className = "phone-screen fake-app-page";
       document.getElementById("phoneScreen").innerHTML = `
-        <div class="phone-status"><span>09:41</span><span>5G  ●</span></div>
+        ${statusBar('inherit')}
         <div class="phone-content">${content}</div>
         <div class="bottom-home"></div>
       `;
@@ -1983,8 +2247,8 @@
       document.getElementById("mainSub").textContent = isDecoy ? "Giao diện giống Vault thật nhưng dữ liệu vô hại." : "Không gian thật chứa dữ liệu riêng tư.";
       document.getElementById("phoneScreen").className = "phone-screen";
       document.getElementById("phoneScreen").innerHTML = `
-        <div class="phone-status" style="color:white;"><span>09:41</span><span>5G  ●</span></div>
-        <div class="phone-content" style="background:#080A0F;color:white;">
+        ${statusBar('white')}
+        <div class="phone-content vault-shell" style="color:white;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
             <div>
               <h2 style="font-size:24px;letter-spacing:-.5px;">${isDecoy ? "Private Space" : "Hidden Vault"}</h2>
@@ -2046,7 +2310,7 @@
           alert: "Cơ bản",
           escape: "Nút nhanh",
           cta: "Chọn gói 500 MB",
-          toast: "Prototype: chọn gói 500 MB $0.50"
+          toast: "Đã chọn gói 500 MB $0.50"
         },
         quarter: {
           title: "Gói 1.5 GB",
@@ -2060,7 +2324,7 @@
           alert: "Chi tiết hơn",
           escape: "Nút + úp máy",
           cta: "Chọn gói 1.5 GB",
-          toast: "Prototype: chọn gói 1.5 GB $1.25"
+          toast: "Đã chọn gói 1.5 GB $1.25"
         },
         half: {
           title: "Gói 5 GB",
@@ -2074,7 +2338,7 @@
           alert: "Đầy đủ",
           escape: "Nút + úp máy + lắc máy",
           cta: "Chọn gói 5 GB",
-          toast: "Prototype: chọn gói 5 GB $2.00"
+          toast: "Đã chọn gói 5 GB $2.00"
         }
       };
 
