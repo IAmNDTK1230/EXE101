@@ -471,6 +471,26 @@
       white-space: nowrap;
     }
 
+    .sub-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .app-nav-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: #e8edf4;
+      color: #1d2430;
+      border: 1px solid #d7deea;
+      font-size: 17px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .calc-display {
       height: 120px;
       display: flex;
@@ -698,6 +718,30 @@
       font-size: 15px;
       color: #bff3ff;
       white-space: nowrap;
+    }
+
+    .setting-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 5px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+      margin-bottom: 14px;
+    }
+
+    .setting-tab {
+      flex: 1;
+      padding: 10px 8px;
+      border-radius: 12px;
+      background: transparent;
+      color: #97a3b9;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .setting-tab.active {
+      background: rgba(85,215,255,.12);
+      color: white;
     }
 
     .settings-list {
@@ -1117,10 +1161,10 @@
 
       if (!secretCode || secretCode.length < 4) return showMessage('setupMessage', 'Mật khẩu thật cần tối thiểu 4 ký tự.');
       if (!decoyCode || decoyCode.length < 4) return showMessage('setupMessage', 'Vui lòng nhập mật khẩu giả.');
-      if (secretCode === decoyCode) return showMessage('setupMessage', 'Mật khẩu giả không được trùng mật khẩu thật.');
+      if (normalizeCode(secretCode) === normalizeCode(decoyCode)) return showMessage('setupMessage', 'Mật khẩu giả không được trùng mật khẩu thật.');
 
-      currentUser.secretCode = secretCode;
-      currentUser.decoyCode = decoyCode;
+      currentUser.secretCode = normalizeCodeForDisguise(secretCode, currentUser.disguise || selectedDisguise);
+      currentUser.decoyCode = normalizeCodeForDisguise(decoyCode, currentUser.disguise || selectedDisguise);
       currentUser.decoyContent = decoyContent || 'Ảnh phong cảnh, tài liệu học tập';
       currentUser.setupDone = true;
       updateUser(currentUser);
@@ -1189,7 +1233,10 @@
       return `
         <div class="sub-tools">
           <div class="app-title">${title}</div>
-          <span class="pill">${tag}</span>
+          <div class="sub-actions">
+            <span class="pill">${tag}</span>
+            <button class="app-nav-btn" onclick="renderHomeScreen()">⌂</button>
+          </div>
         </div>
       `;
     }
@@ -1237,8 +1284,11 @@
       if (v === '+/-' || v === '%') return;
       if (v === '=') {
         calcInput += '=';
-        if (calcInput === currentUser.secretCode) return unlockVault(false);
-        if (calcInput === currentUser.decoyCode) return unlockVault(true);
+        const rawInput = calcInput.replace(/=$/, '');
+        const secretRaw = normalizeCode(currentUser.secretCode || '');
+        const decoyRaw = normalizeCode(currentUser.decoyCode || '');
+        if (calcInput === currentUser.secretCode || rawInput === secretRaw) return unlockVault(false);
+        if (calcInput === currentUser.decoyCode || rawInput === decoyRaw) return unlockVault(true);
         try {
           const exp = calcInput.replace('=', '').replaceAll('×', '*').replaceAll('÷', '/');
           const result = Function('"use strict"; return (' + exp + ')')();
@@ -1454,9 +1504,14 @@
           <div class="vault-top">
             <div>
               <h2>Đổi giao diện</h2>
-              <p>Chọn app bên ngoài để ngụy trang Hidden Vault. Phần hướng dẫn mở Vault chỉ hiển thị tại bước thiết lập/đổi giao diện.</p>
+              <p>Chọn lớp vỏ mới và kiểm tra lại mật khẩu phù hợp với app đó.</p>
             </div>
             <button class="mini-btn" onclick="renderAppSettings()">‹</button>
+          </div>
+
+          <div class="setting-tabs">
+            <button class="setting-tab active">Giao diện</button>
+            <button class="setting-tab active">Mật khẩu</button>
           </div>
 
           <div class="disguise-grid">
@@ -1471,8 +1526,33 @@
             <input id="newDisplayName" class="input" value="${escapeHtml(currentUser.displayName || '')}" placeholder="Quick Calc / Daily Notes" />
           </div>
 
+          <div class="help-box">
+            <h4>Cách mở Vault theo giao diện</h4>
+            <p id="changeGuideText">${setupGuideText(selected)}</p>
+          </div>
+
+          <div class="help-box" style="margin-top:10px;">
+            <h4>Thông báo chuẩn hóa mật khẩu</h4>
+            <p id="changeFormatText">${disguiseFormatNotice(selected)}</p>
+          </div>
+
+          <div class="field" style="margin-top:12px;">
+            <label>Mật khẩu thật</label>
+            <input id="changeSecretCode" class="input" value="${escapeHtml(suggestCodeForDisguise(currentUser.secretCode || '', selected))}" placeholder="Ví dụ: 1234=" />
+          </div>
+
+          <div class="field">
+            <label>Mật khẩu giả</label>
+            <input id="changeDecoyCode" class="input" value="${escapeHtml(suggestCodeForDisguise(currentUser.decoyCode || '', selected))}" placeholder="Ví dụ: 0000=" />
+          </div>
+
+          <div class="field">
+            <label>Nội dung Vault giả</label>
+            <input id="changeDecoyContent" class="input" value="${escapeHtml(currentUser.decoyContent || '')}" placeholder="Ảnh phong cảnh, tài liệu học tập" />
+          </div>
+
           <input id="newDisguiseValue" type="hidden" value="${escapeHtml(selected)}" />
-          <button class="btn" onclick="saveNewDisguise()">Lưu giao diện</button>
+          <button class="btn" onclick="saveNewDisguise()">Lưu giao diện & mật khẩu</button>
           <div class="home-bar"></div>
         </div>
       `, 'dark');
@@ -1491,10 +1571,24 @@
 
     function selectNewDisguise(value) {
       const hidden = document.getElementById('newDisguiseValue');
+      const previous = hidden ? hidden.value : currentUser.disguise;
       if (hidden) hidden.value = value;
+
       const defaults = { Calculator: 'Quick Calc', Notes: 'Daily Notes', Calendar: 'My Calendar', Weather: 'Weather+' };
       const input = document.getElementById('newDisplayName');
       if (input) input.value = defaults[value] || value;
+
+      const guide = document.getElementById('changeGuideText');
+      if (guide) guide.textContent = setupGuideText(value);
+
+      const formatText = document.getElementById('changeFormatText');
+      if (formatText) formatText.textContent = disguiseFormatNotice(value);
+
+      const secretInput = document.getElementById('changeSecretCode');
+      const decoyInput = document.getElementById('changeDecoyCode');
+      if (secretInput) secretInput.value = suggestCodeForDisguise(secretInput.value || currentUser.secretCode || '', value);
+      if (decoyInput) decoyInput.value = suggestCodeForDisguise(decoyInput.value || currentUser.decoyCode || '', value);
+
       document.querySelectorAll('.disguise').forEach(btn => btn.classList.remove('active'));
       event.currentTarget.classList.add('active');
     }
@@ -1502,13 +1596,28 @@
     function saveNewDisguise() {
       const value = document.getElementById('newDisguiseValue')?.value || currentUser.disguise || 'Calculator';
       const label = document.getElementById('newDisplayName')?.value.trim();
+      const secret = document.getElementById('changeSecretCode')?.value.trim();
+      const decoy = document.getElementById('changeDecoyCode')?.value.trim();
+      const content = document.getElementById('changeDecoyContent')?.value.trim();
+
       if (!label) return toast('Vui lòng nhập tên app hiển thị');
+      if (!secret || secret.length < 4) return toast('Mật khẩu thật cần tối thiểu 4 ký tự');
+      if (!decoy || decoy.length < 4) return toast('Mật khẩu giả cần tối thiểu 4 ký tự');
+      if (normalizeCode(secret) === normalizeCode(decoy)) return toast('Mật khẩu giả không được trùng mật khẩu thật');
+
       currentUser.disguise = value;
       currentUser.displayName = label;
+      currentUser.secretCode = normalizeCodeForDisguise(secret, value);
+      currentUser.decoyCode = normalizeCodeForDisguise(decoy, value);
+      currentUser.decoyContent = content || currentUser.decoyContent || 'Ảnh phong cảnh, tài liệu học tập';
       currentUser.setupDone = true;
       updateUser(currentUser);
       renderAppSettings();
-      toast('Đã đổi giao diện app');
+      if (value === 'Calculator') {
+        toast('Đã đổi sang Calculator. Mật khẩu sẽ tự có dấu = ở cuối.');
+      } else {
+        toast('Đã đổi sang ' + value + '. Mật khẩu sẽ tự bỏ dấu = ở cuối.');
+      }
     }
 
     function renderChangePassword() {
@@ -1549,9 +1658,9 @@
       const content = document.getElementById('newDecoyContent').value.trim();
       if (!secret || secret.length < 4) return toast('Mật khẩu thật cần tối thiểu 4 ký tự');
       if (!decoy || decoy.length < 4) return toast('Mật khẩu giả cần tối thiểu 4 ký tự');
-      if (secret === decoy) return toast('Mật khẩu giả không được trùng mật khẩu thật');
-      currentUser.secretCode = secret;
-      currentUser.decoyCode = decoy;
+      if (normalizeCode(secret) === normalizeCode(decoy)) return toast('Mật khẩu giả không được trùng mật khẩu thật');
+      currentUser.secretCode = normalizeCodeForDisguise(secret, currentUser.disguise || 'Calculator');
+      currentUser.decoyCode = normalizeCodeForDisguise(decoy, currentUser.disguise || 'Calculator');
       currentUser.decoyContent = content || 'Ảnh phong cảnh, tài liệu học tập';
       currentUser.setupDone = true;
       updateUser(currentUser);
@@ -1660,6 +1769,27 @@
       el.classList.add('show');
       clearTimeout(window.toastTimer);
       window.toastTimer = setTimeout(() => el.classList.remove('show'), 1800);
+    }
+
+    function disguiseFormatNotice(disguise) {
+      if (disguise === 'Calculator') {
+        return 'Khi đổi sang Calculator, hệ thống sẽ tự thêm dấu = vào cuối mật khẩu để bấm = mở Vault.';
+      }
+      return 'Khi đổi sang ' + disguise + ', hệ thống sẽ tự bỏ dấu = ở cuối mật khẩu để thao tác nhập/search tự nhiên hơn.';
+    }
+
+    function normalizeCode(code) {
+      return String(code || '').trim().replace(/=$/, '');
+    }
+
+    function normalizeCodeForDisguise(code, disguise) {
+      const raw = normalizeCode(code);
+      if (disguise === 'Calculator') return raw + '=';
+      return raw;
+    }
+
+    function suggestCodeForDisguise(code, disguise) {
+      return normalizeCodeForDisguise(code, disguise);
     }
 
     function setupGuideText(disguise) {
