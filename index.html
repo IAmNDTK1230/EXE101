@@ -548,6 +548,79 @@
       margin-bottom: 14px;
     }
 
+    .notes-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .notes-add-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: #007aff;
+      color: white;
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 22px rgba(0,122,255,.22);
+    }
+
+    .note-editor-title {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--ios-text);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -.4px;
+      margin-bottom: 16px;
+    }
+
+    .note-editor-body {
+      width: 100%;
+      min-height: 330px;
+      border: 0;
+      outline: 0;
+      resize: none;
+      background: transparent;
+      color: var(--ios-text);
+      font: inherit;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .note-editor-actions {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .note-action-btn {
+      padding: 13px;
+      border-radius: 16px;
+      font-size: 13px;
+      font-weight: 800;
+      background: #007aff;
+      color: white;
+    }
+
+    .note-action-btn.secondary {
+      background: #e8edf4;
+      color: #1d2430;
+      border: 1px solid #d7deea;
+    }
+
     .note-composer {
       background: white;
       border: 1px solid #e7eaf1;
@@ -1381,38 +1454,68 @@
       const title = currentUser.displayName || 'Notes';
       const notes = currentUser.fakeNotes || [];
       const noteCards = notes.map((note, index) => `
-        <div class="ios-card">
-          <h4>${escapeHtml(note.title || 'Note ' + (index + 1))}</h4>
-          <p>${escapeHtml(note.body || '')}</p>
-        </div>
+        <button class="ios-card" style="width:100%;text-align:left;" onclick="openFakeNoteEditor(${index})">
+          <h4>${escapeHtml(note.title || 'Untitled')}</h4>
+          <p>${escapeHtml((note.body || '').slice(0, 90))}${(note.body || '').length > 90 ? '...' : ''}</p>
+        </button>
       `).join('');
 
       renderPhone(`
         <div class="view app-view">
           ${topBarInApp(title, 'Notes')}
-          <input class="search" placeholder="Search notes" onkeydown="searchUnlock(event)" />
 
-          <div class="note-composer">
-            <textarea id="newFakeNote" class="note-input" placeholder="Viết ghi chú mới..."></textarea>
-            <button class="note-save" onclick="saveFakeNote()">Lưu ghi chú</button>
+          <div class="notes-header">
+            <input class="search" style="margin-bottom:0;" placeholder="Search notes" onkeydown="searchUnlock(event)" />
+            <button class="notes-add-btn" onclick="openFakeNoteEditor()">+</button>
           </div>
 
-          ${noteCards}
+          ${noteCards || `<div class="ios-card"><h4>Chưa có ghi chú</h4><p>Nhấn dấu + để tạo ghi chú mới.</p></div>`}
           ${bottomHomeButton()}
         </div>
       `, 'light');
     }
 
-    function saveFakeNote() {
-      const input = document.getElementById('newFakeNote');
-      const body = input ? input.value.trim() : '';
-      if (!body) return toast('Vui lòng nhập nội dung ghi chú');
+    function openFakeNoteEditor(index = null) {
+      const isEdit = index !== null && index !== undefined;
+      const note = isEdit ? (currentUser.fakeNotes || [])[index] : { title: '', body: '' };
+      renderPhone(`
+        <div class="view app-view">
+          <div class="sub-tools">
+            <button class="app-nav-btn" style="width:42px;height:42px;font-size:18px;" onclick="renderNotes()">‹</button>
+            <span class="pill">${isEdit ? 'Edit Note' : 'New Note'}</span>
+          </div>
 
-      const firstLine = body.split('\n').find(line => line.trim()) || 'New note';
-      const title = firstLine.length > 28 ? firstLine.slice(0, 28) + '...' : firstLine;
+          <input id="noteTitleInput" class="note-editor-title" placeholder="Tiêu đề" value="${escapeHtml(note?.title || '')}" />
+          <textarea id="noteBodyInput" class="note-editor-body" placeholder="Nhập nội dung ghi chú...">${escapeHtml(note?.body || '')}</textarea>
+
+          <div class="note-editor-actions">
+            <button class="note-action-btn secondary" onclick="renderNotes()">Hủy</button>
+            <button class="note-action-btn" onclick="saveFakeNote(${isEdit ? index : 'null'})">Lưu</button>
+          </div>
+        </div>
+      `, 'light');
+    }
+
+    function saveFakeNote(index = null) {
+      const titleInput = document.getElementById('noteTitleInput');
+      const bodyInput = document.getElementById('noteBodyInput');
+      const title = titleInput ? titleInput.value.trim() : '';
+      const body = bodyInput ? bodyInput.value.trim() : '';
+
+      if (!title && !body) return toast('Vui lòng nhập tiêu đề hoặc nội dung');
 
       currentUser.fakeNotes = currentUser.fakeNotes || [];
-      currentUser.fakeNotes.unshift({ title, body });
+      const savedNote = {
+        title: title || 'Untitled',
+        body: body || ''
+      };
+
+      if (index !== null && index !== undefined && currentUser.fakeNotes[index]) {
+        currentUser.fakeNotes[index] = savedNote;
+      } else {
+        currentUser.fakeNotes.unshift(savedNote);
+      }
+
       updateUser(currentUser);
       toast('Đã lưu ghi chú');
       renderNotes();
