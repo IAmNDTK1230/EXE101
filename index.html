@@ -477,18 +477,35 @@
       gap: 8px;
     }
 
+    .app-view {
+      position: relative;
+      padding-bottom: 88px;
+    }
+
+    .app-bottom-nav {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+
     .app-nav-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: #e8edf4;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.92);
       color: #1d2430;
       border: 1px solid #d7deea;
-      font-size: 17px;
+      font-size: 22px;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      pointer-events: auto;
     }
 
     .calc-display {
@@ -529,6 +546,39 @@
       background: #e8e9ee;
       color: var(--ios-text);
       margin-bottom: 14px;
+    }
+
+    .note-composer {
+      background: white;
+      border: 1px solid #e7eaf1;
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 18px rgba(20,25,40,.05);
+    }
+
+    .note-input {
+      width: 100%;
+      min-height: 76px;
+      resize: none;
+      border: 0;
+      outline: 0;
+      color: var(--ios-text);
+      background: transparent;
+      font: inherit;
+      font-size: 13px;
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+
+    .note-save {
+      width: 100%;
+      padding: 10px;
+      border-radius: 12px;
+      background: #007aff;
+      color: white;
+      font-weight: 800;
+      font-size: 13px;
     }
 
     .ios-card {
@@ -836,7 +886,12 @@
       decoyContent: "Ảnh phong cảnh và tài liệu học tập",
       plan: "Trial",
       storage: "Trial",
-      uploadedImages: []
+      uploadedImages: [],
+      fakeNotes: [
+        { title: "Shopping list", body: "Milk, eggs, bread, coffee..." },
+        { title: "Class reminder", body: "Submit project report before Friday." },
+        { title: "Meeting notes", body: "Discuss UI flow and user privacy." }
+      ]
     };
 
     const STORAGE_KEY = "hidderUsersPhoneOnly";
@@ -955,7 +1010,7 @@
             ${homeIcon('Calendar', 'Calendar', `toast('Đây là app bình thường')`)}
             ${homeIcon('Clock', 'Clock', `toast('Đây là app bình thường')`)}
             ${homeIcon('Gallery', 'Gallery', `toast('Đây là app bình thường')`)}
-            ${homeIcon('Settings', 'Settings', hasSetup ? 'renderAppSettings()' : `toast('Đây là app bình thường')`)}
+            ${homeIcon('Files', 'Files', `toast('Đây là app bình thường')`)}
             ${homeIcon('Music', 'Music', `toast('Đây là app bình thường')`)}
           </div>
 
@@ -1192,7 +1247,11 @@
         decoyContent: '',
         plan: 'Trial',
         storage: 'Trial',
-        uploadedImages: []
+        uploadedImages: [],
+        fakeNotes: [
+          { title: "Shopping list", body: "Milk, eggs, bread, coffee..." },
+          { title: "Class reminder", body: "Submit project report before Friday." }
+        ]
       };
       const data = users();
       data.push(user);
@@ -1235,8 +1294,15 @@
           <div class="app-title">${title}</div>
           <div class="sub-actions">
             <span class="pill">${tag}</span>
-            <button class="app-nav-btn" onclick="renderHomeScreen()">⌂</button>
           </div>
+        </div>
+      `;
+    }
+
+    function bottomHomeButton() {
+      return `
+        <div class="app-bottom-nav">
+          <button class="app-nav-btn" onclick="renderHomeScreen()">⌂</button>
         </div>
       `;
     }
@@ -1269,6 +1335,7 @@
             <button class="calc-btn dark" onclick="calcPress('.')">.</button>
             <button class="calc-btn op" onclick="calcPress('=')">=</button>
           </div>
+          ${bottomHomeButton()}
         </div>
       `, 'light');
     }
@@ -1292,11 +1359,18 @@
         try {
           const exp = calcInput.replace('=', '').replaceAll('×', '*').replaceAll('÷', '/');
           const result = Function('"use strict"; return (' + exp + ')')();
-          display.textContent = Number.isFinite(result) ? String(result).slice(0, 10) : 'Error';
+          if (Number.isFinite(result)) {
+            const shown = String(result).slice(0, 10);
+            display.textContent = shown;
+            calcInput = shown;
+          } else {
+            display.textContent = 'Error';
+            calcInput = '';
+          }
         } catch {
           display.textContent = 'Error';
+          calcInput = '';
         }
-        calcInput = '';
         return;
       }
       calcInput += v;
@@ -1305,15 +1379,43 @@
 
     function renderNotes() {
       const title = currentUser.displayName || 'Notes';
+      const notes = currentUser.fakeNotes || [];
+      const noteCards = notes.map((note, index) => `
+        <div class="ios-card">
+          <h4>${escapeHtml(note.title || 'Note ' + (index + 1))}</h4>
+          <p>${escapeHtml(note.body || '')}</p>
+        </div>
+      `).join('');
+
       renderPhone(`
         <div class="view app-view">
           ${topBarInApp(title, 'Notes')}
           <input class="search" placeholder="Search notes" onkeydown="searchUnlock(event)" />
-          <div class="ios-card"><h4>Shopping list</h4><p>Milk, eggs, bread, coffee...</p></div>
-          <div class="ios-card"><h4>Class reminder</h4><p>Submit project report before Friday.</p></div>
-          <div class="ios-card"><h4>Meeting notes</h4><p>Discuss UI flow and user privacy.</p></div>
+
+          <div class="note-composer">
+            <textarea id="newFakeNote" class="note-input" placeholder="Viết ghi chú mới..."></textarea>
+            <button class="note-save" onclick="saveFakeNote()">Lưu ghi chú</button>
+          </div>
+
+          ${noteCards}
+          ${bottomHomeButton()}
         </div>
       `, 'light');
+    }
+
+    function saveFakeNote() {
+      const input = document.getElementById('newFakeNote');
+      const body = input ? input.value.trim() : '';
+      if (!body) return toast('Vui lòng nhập nội dung ghi chú');
+
+      const firstLine = body.split('\n').find(line => line.trim()) || 'New note';
+      const title = firstLine.length > 28 ? firstLine.slice(0, 28) + '...' : firstLine;
+
+      currentUser.fakeNotes = currentUser.fakeNotes || [];
+      currentUser.fakeNotes.unshift({ title, body });
+      updateUser(currentUser);
+      toast('Đã lưu ghi chú');
+      renderNotes();
     }
 
 
@@ -1326,6 +1428,7 @@
           <div class="ios-card"><h4>Today</h4><p>Team meeting · 9:00 AM</p></div>
           <div class="ios-card"><h4>Tomorrow</h4><p>Project deadline · 11:59 PM</p></div>
           <div class="ios-card"><h4>Friday</h4><p>Study session · 7:30 PM</p></div>
+          ${bottomHomeButton()}
         </div>
       `, 'light');
     }
@@ -1340,6 +1443,7 @@
           <div class="ios-card"><h4>Documents</h4><p>8 items</p></div>
           <div class="ios-card"><h4>School</h4><p>5 items</p></div>
           <div class="ios-card"><h4>Work</h4><p>9 items</p></div>
+          ${bottomHomeButton()}
         </div>
       `, 'light');
     }
@@ -1355,6 +1459,7 @@
           </div>
           <div class="ios-card"><h4>Today</h4><p>29° / 25° · Light wind</p></div>
           <div class="ios-card"><h4>Hourly Forecast</h4><p>10AM 29° · 11AM 30° · 12PM 31°</p></div>
+          ${bottomHomeButton()}
         </div>
       `, 'light');
     }
@@ -1442,6 +1547,13 @@
       if (!currentUser.plan) currentUser.plan = 'Trial';
       if (!currentUser.storage) currentUser.storage = 'Trial';
       if (!Array.isArray(currentUser.uploadedImages)) currentUser.uploadedImages = [];
+      if (!Array.isArray(currentUser.fakeNotes)) {
+        currentUser.fakeNotes = [
+          { title: "Shopping list", body: "Milk, eggs, bread, coffee..." },
+          { title: "Class reminder", body: "Submit project report before Friday." },
+          { title: "Meeting notes", body: "Discuss UI flow and user privacy." }
+        ];
+      }
       saveSession(currentUser);
     }
 
